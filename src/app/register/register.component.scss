@@ -1,0 +1,23 @@
+.btn-register {
+  // float: right;
+  // left: 1545px;
+  color: black;
+  margin-right: 150px;
+}
+.register-field {
+  font-size: 15px;
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+.register-hint {
+  margin-left: -10px;
+}
+.btn-register-submit {
+  margin-top: 22px;
+}
+mat-error {
+  margin-top: -2px;
+}

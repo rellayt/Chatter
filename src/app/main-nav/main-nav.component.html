@@ -1,0 +1,62 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+    position="end"
+  >
+    <mat-toolbar class="sidenav-menu"
+      ><span style="margin: auto;">Menu</span></mat-toolbar
+    >
+    <mat-nav-list>
+      <a mat-list-item href="#">Link 1</a>
+      <a mat-list-item href="#">Link 2</a>
+      <a mat-list-item href="#">Link 3</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="toolbar">
+      <mat-toolbar class="toolbar">
+        <span class="h-word">RLT Chatter</span>
+        <ng-container *ngIf="userLogged; else userNotLogged">
+          <span class="welcome-field"
+            >Welcome, {{ username }}
+            <button
+              type="button"
+              class="btn-log"
+              mat-icon-button
+              (transitionend)="logoutUser()"
+            >
+              <mat-icon style="font-size: 27px; margin-bottom: 7px;"
+                >login</mat-icon
+              >
+            </button></span
+          >
+        </ng-container>
+        <ng-template #userNotLogged>
+          <div class="wrapper">
+            <app-login></app-login>
+            <app-register></app-register>
+          </div>
+        </ng-template>
+
+        <!-- <button mat-raised-button (click)="buttonClick()">test</button> -->
+
+        <button
+          type="button"
+          class="btn-fab"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async"
+        >
+          <mat-icon style="font-size: 36px;">menu</mat-icon>
+        </button>
+      </mat-toolbar>
+      <app-chatter></app-chatter>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

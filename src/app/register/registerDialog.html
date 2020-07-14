@@ -1,0 +1,77 @@
+<div mat-dialog-content cdkFocusInitial>
+  <h1 mat-dialog-title style="font-size: 25px;">Register</h1>
+  <div class="register-field">
+    <mat-form-field appearance="fill">
+      <mat-label>username</mat-label>
+      <input
+        matInput
+        [(ngModel)]="username"
+        [errorStateMatcher]="matcher"
+        [formControl]="usernameFormControl"
+      />
+      <mat-error *ngIf="usernameFormControl.hasError('required')">
+        Username field cannot be <strong>empty</strong>
+      </mat-error>
+      <mat-error *ngIf="usernameFormControl.hasError('sameUsername')">
+        There is user with that <strong>name</strong>
+      </mat-error>
+      <mat-error *ngIf="usernameFormControl.hasError('minMaxNameLen')">
+        Username length shoulde be <strong>>=3</strong> and
+        <strong><=12</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>password</mat-label>
+      <input
+        matNativeControl
+        [(ngModel)]="password"
+        [type]="hide ? 'password' : 'text'"
+        [errorStateMatcher]="matcher"
+        [formControl]="passwordFormControl"
+      />
+      <mat-error *ngIf="passwordFormControl.hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="passwordFormControl.hasError('notconfirmed')">
+      </mat-error>
+      <mat-error *ngIf="passwordFormControl.hasError('minPassLen')">
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>confirm password</mat-label>
+      <mat-hint class="register-hint">
+        Do not enter the real password
+      </mat-hint>
+      <input
+        matNativeControl
+        [(ngModel)]="confirmPassword"
+        [type]="hide ? 'password' : 'text'"
+        [errorStateMatcher]="matcher"
+        [formControl]="confirmPasswordFormControl"
+      />
+
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="confirmPasswordFormControl.hasError('required')">
+        Confirm password is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="confirmPasswordFormControl.hasError('notconfirmed')">
+        Passwords must <strong>match</strong>
+      </mat-error>
+      <mat-error *ngIf="confirmPasswordFormControl.hasError('minPassLen')">
+        password length must be <strong>greater</strong> than
+        <strong>6</strong> characters
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button class="btn-register-submit" (click)="register()">
+      Create new account
+    </button>
+  </div>
+</div>

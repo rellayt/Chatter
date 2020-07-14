@@ -1,0 +1,49 @@
+<div mat-dialog-content class="login-field" cdkFocusInitial>
+  <h1 mat-dialog-title style="font-size: 25px;">Login</h1>
+  <mat-form-field>
+    <mat-label>username</mat-label>
+    <input
+      matInput
+      [(ngModel)]="input.username"
+      [errorStateMatcher]="matcher"
+      [formControl]="loginFormControl"
+    />
+    <mat-error *ngIf="loginFormControl.hasError('required')">
+      Username field cannot be <strong>empty</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>password</mat-label>
+    <input
+      matInput
+      [(ngModel)]="input.password"
+      [type]="hide ? 'password' : 'text'"
+      [errorStateMatcher]="matcher"
+      [formControl]="passwordFormControl"
+    />
+    <mat-error *ngIf="passwordFormControl.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+    <mat-error
+      *ngIf="passwordFormControl.hasError('userMismatch') && loginFormControl.hasError('userMismatch')"
+    >
+      Username or password are <strong>incorrect</strong>
+    </mat-error>
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="hide = !hide"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide"
+    >
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+  </mat-form-field>
+  <button
+    mat-raised-button
+    class="btn-login-submit"
+    (click)="authentication(input.username,input.password); isLogged();"
+  >
+    Sign in
+  </button>
+</div>
