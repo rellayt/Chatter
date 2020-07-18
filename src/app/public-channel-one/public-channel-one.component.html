@@ -1,0 +1,11 @@
+<div class="public-channel-container">
+  <h1>Public Channel One</h1>
+  <hr />
+  <div class="messages">
+    <ng-container *ngFor="let message of channelOneMessages">
+      <div class="single-message">
+        <span class="inner-message">{{ message.message }}</span>
+      </div>
+    </ng-container>
+  </div>
+</div>

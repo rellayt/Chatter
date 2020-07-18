@@ -1,0 +1,10 @@
+<div class="online-users-container">
+  Online users
+  <hr />
+  <ul *ngIf="onlineUsers.length; else noOnlineusers">
+    <li *ngFor="let user of onlineUsers">{{ user.username }}</li>
+  </ul>
+  <ng-template #noOnlineusers>
+    <span class="no-online-users">No online users</span>
+  </ng-template>
+</div>

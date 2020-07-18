@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject, Output, DoCheck } from '@angular/core';
+import { Component, OnInit, Inject, Output, DoCheck, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { userMatchValidator, MyErrorStateMatcher, userData } from './validation.component';
 import { EventEmitter } from '@angular/core';
 import { userService } from '../_services/user.service';
 import { userSourceService } from '../_services/users.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -46,12 +47,15 @@ export class LoginComponent implements OnInit, DoCheck {
   }
 }
 
+
+
+
 @Component({
   selector: 'loginDialog',
   templateUrl: './loginDialog.html',
   styleUrls: ['./login.component.scss']
 })
-export class loginDialog implements OnInit {
+export class loginDialog implements OnInit, OnDestroy {
   hide = true;
 
   loginFormControl = new FormControl('', [Validators.required]);
@@ -62,9 +66,7 @@ export class loginDialog implements OnInit {
   matcher = new MyErrorStateMatcher();
 
   userDataTemp: userData = { id: null, username: '', password: '', logged: false };
-
   userLogged = false;
-
   users: userData[];
 
   @Output()
@@ -76,7 +78,6 @@ export class loginDialog implements OnInit {
   }
 
   password: any;
-
   formGroup: FormGroup;
 
   ngOnInit(): void {
@@ -84,10 +85,22 @@ export class loginDialog implements OnInit {
       this.users = users;
     });
   }
+  ngOnDestroy(): void {
+
+  }
 
   constructor(
     public dialogRef: MatDialogRef<loginDialog>, @Inject(MAT_DIALOG_DATA) public input: userData,
-    public userService: userSourceService, private formBuilder: FormBuilder) {
+    public userService: userSourceService, private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
+  }
+
+  openSnackBar() {
+    this.snackBar.open('Successfully logged', 'Cancel', {
+      duration: 700,
+      horizontalPosition: 'end',
+      verticalPosition: 'bottom',
+      panelClass: ['blue-snackbar']
+    });
   }
 
   formGroupFunction = (username: string, password: string) => {
@@ -125,12 +138,13 @@ export class loginDialog implements OnInit {
   authentication(username: string, password: string) {
     // tslint:disable-next-line: forin
     for (let it in this.users) {
-      console.log('this.users[it].username: ' + this.users[it].username + ', this.users[it].password: ' + this.users[it].password);
       if (this.users[it].username === username && this.users[it].password === password) {
         this.userLogged = true;
         this.users[it].logged = true;
         this.userDataTemp.logged = true;
         console.log('Welcome, ' + this.users[it].username);
+        this.userService.changeUserStatus(this.users[it]);
+        this.openSnackBar();
       }
     }
     this.formGroupFunction(username, password);

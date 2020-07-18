@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { userSourceService } from '../_services/users.service';
 import { FormControl, Validators } from '@angular/forms';
-import { find, map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -51,10 +51,19 @@ export class registerDialog implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<registerDialog>,
-    @Inject(MAT_DIALOG_DATA) public input: userData, public userService: userSourceService) { }
+    @Inject(MAT_DIALOG_DATA) public input: userData, public userService: userSourceService, private snackBar: MatSnackBar) { }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  openSnackBar() {
+    this.snackBar.open('Successfully registered', 'Cancel', {
+      duration: 700,
+      horizontalPosition: 'end',
+      verticalPosition: 'bottom',
+      panelClass: ['blue-snackbar']
+    });
   }
 
   ngOnInit(): void {
@@ -96,6 +105,7 @@ export class registerDialog implements OnInit {
       console.log(this.userToAdd);
       this.userService.addUsers(this.userToAdd);
       this.dialogRef.close();
+      this.openSnackBar();
     }
   }
 }

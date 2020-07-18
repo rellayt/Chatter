@@ -30,9 +30,7 @@
               mat-icon-button
               (transitionend)="logoutUser()"
             >
-              <mat-icon style="font-size: 27px; margin-bottom: 7px;"
-                >login</mat-icon
-              >
+              <mat-icon class="logout-icon">login</mat-icon>
             </button></span
           >
         </ng-container>
@@ -42,8 +40,6 @@
             <app-register></app-register>
           </div>
         </ng-template>
-
-        <!-- <button mat-raised-button (click)="buttonClick()">test</button> -->
 
         <button
           type="button"
@@ -56,6 +52,10 @@
           <mat-icon style="font-size: 36px;">menu</mat-icon>
         </button>
       </mat-toolbar>
+      <app-expansion-panel
+        [isLogged]="userLogged"
+        [username]="username"
+      ></app-expansion-panel>
       <app-chatter></app-chatter>
     </div>
   </mat-sidenav-content>

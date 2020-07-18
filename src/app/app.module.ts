@@ -12,6 +12,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { UsersComponent } from './users/users.component';
 import { userSourceService } from './_services/users.service';
+import { OnlineUsersComponent } from './online-users/online-users.component';
+import { ExpansionPanelComponent, optionsDialog } from './expansion-panel/expansion-panel.component';
+import { PublicChannelOneComponent } from './public-channel-one/public-channel-one.component';
 
 @NgModule({
   declarations: [
@@ -21,9 +24,13 @@ import { userSourceService } from './_services/users.service';
     loginDialog,
     RegisterComponent,
     registerDialog,
-    UsersComponent
+    UsersComponent,
+    OnlineUsersComponent,
+    ExpansionPanelComponent,
+    PublicChannelOneComponent,
+    optionsDialog
   ],
-  entryComponents: [LoginComponent, loginDialog, RegisterComponent, registerDialog],
+  entryComponents: [LoginComponent, loginDialog, RegisterComponent, registerDialog, optionsDialog],
   imports: [
     BrowserModule,
     AppRoutingModule,

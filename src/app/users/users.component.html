@@ -3,14 +3,12 @@
   <span class="lists">List of users: </span>
   <hr />
   <br />
-  <div *ngIf="users?.length > 0; else noUsers">
-    <ul *ngFor="let user of users">
-      <li>
-        {{ user.id }} | {{ user.username }} | {{ user.password }} |
-        {{ user.logged }} |
-        <span style="font-size: 9px;">{{ user.idSource }}</span>
-      </li>
-    </ul>
+  <div class="users-info">
+    <div *ngIf="users?.length > 0; else noUsers">
+      <ul *ngFor="let user of users">
+        <li>{{ user.id }} | {{ user.username }} | {{ user.password }}</li>
+      </ul>
+    </div>
   </div>
 </div>
 

@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const MaterialComponents = [CommonModule,
   BrowserAnimationsModule,
@@ -29,7 +31,9 @@ const MaterialComponents = [CommonModule,
   FormsModule,
   MatFormFieldModule,
   ReactiveFormsModule,
-  MatInputModule
+  MatInputModule,
+  MatExpansionModule,
+  MatSnackBarModule
 ];
 
 @NgModule({

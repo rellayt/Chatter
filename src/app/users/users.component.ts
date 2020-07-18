@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { userSourceService } from '../_services/users.service';
 import { userData } from '../login/validation.component';
 
@@ -7,17 +7,20 @@ import { userData } from '../login/validation.component';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
-
-  users: userData[];
+export class UsersComponent implements OnInit, OnDestroy {
 
   constructor(public userService: userSourceService) { }
+
+  users: userData[];
+  ngOnDestroy() {
+
+  }
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe(users => {
       this.users = users;
       //console.log(this.users[0].username);
-    })
+    });
   }
 
 }

@@ -10,10 +10,10 @@ import { map } from "rxjs/operators";
 export class userSourceService {
   usersCollection: AngularFirestoreCollection<userData>;
   users: Observable<userData[]>;
+  userDoc: AngularFirestoreDocument<userData>;
 
   constructor(public afs: AngularFirestore) {
-    //this.users = this.afs.collection('users').valueChanges();
-    this.usersCollection = this.afs.collection('users');
+    this.usersCollection = this.afs.collection('users', ref => ref.orderBy('id', 'asc'));
 
     this.users = this.usersCollection.snapshotChanges().pipe(map(changes => {
       return changes.map(a => {
@@ -28,5 +28,10 @@ export class userSourceService {
   }
   addUsers(user: userData) {
     this.usersCollection.add(JSON.parse(JSON.stringify(user)));
+  }
+  changeUserStatus(user: userData) {
+    user = JSON.parse(JSON.stringify(user));
+    this.userDoc = this.afs.doc(`users/${user.idSource}`)
+    this.userDoc.update(user);
   }
 }

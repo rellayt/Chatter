@@ -7,6 +7,8 @@
       [(ngModel)]="input.username"
       [errorStateMatcher]="matcher"
       [formControl]="loginFormControl"
+      ng-enter="authentication(input.username,input.password); isLogged();"
+      (keydown.enter)="authentication(input.username,input.password); isLogged();"
     />
     <mat-error *ngIf="loginFormControl.hasError('required')">
       Username field cannot be <strong>empty</strong>
@@ -20,6 +22,7 @@
       [type]="hide ? 'password' : 'text'"
       [errorStateMatcher]="matcher"
       [formControl]="passwordFormControl"
+      (keydown.enter)="authentication(input.username,input.password); isLogged();"
     />
     <mat-error *ngIf="passwordFormControl.hasError('required')">
       Password is <strong>required</strong>

@@ -1,0 +1,52 @@
+<ng-container *ngIf="isLogged; else unLogged">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <div id="underline-animation">
+          <div class="underline-animation">
+            <span class="hover underline-animation">Profile</span>
+          </div>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="expansion-words-logged">
+      <button
+        mat-raised-button
+        class="expansion-words-logged-anim"
+        (click)="openOptions()"
+      >
+        Options
+      </button>
+      <button mat-raised-button class="expansion-words-logged-anim">
+        Messages
+      </button>
+      <button mat-raised-button class="expansion-words-logged-anim">
+        Logout
+      </button>
+    </div>
+  </mat-expansion-panel>
+</ng-container>
+
+<ng-template #unLogged>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <div id="underline-animation">
+          <div class="underline-animation">
+            <span class="hover underline-animation"
+              >Sign in to chat with other users!</span
+            >
+          </div>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="phrase-notlogged">
+      <p class="anim">Register or use test account:</p>
+    </div>
+    <div class="test-acc-notlogged">
+      <span> <strong>username:</strong> Test <br /> </span>
+      <span> <strong>password:</strong> example</span>
+    </div>
+  </mat-expansion-panel>
+</ng-template>

@@ -72,6 +72,10 @@ $primaryColor: rgb(39, 73, 223);
   }
 }
 .btn-log {
+  padding-top: 3px;
+  padding-right: 7px;
+  margin-left: 9px;
+  bottom: 3px;
   &:hover {
     opacity: 90%;
     animation: fading 1s;
@@ -98,4 +102,8 @@ $primaryColor: rgb(39, 73, 223);
   to {
     opacity: 90%;
   }
+}
+.logout-icon {
+  font-size: 27px;
+  margin-bottom: 7px;
 }

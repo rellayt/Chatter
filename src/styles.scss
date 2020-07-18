@@ -36,5 +36,12 @@ body {
     background-position: 0% 0%;
   }
 }
-section {
+$primaryColor: rgb(39, 73, 223);
+.blue-snackbar {
+  background-color: $primaryColor;
+  color: white;
+}
+.blue-snackbar button {
+  background-color: $primaryColor;
+  color: white;
 }
