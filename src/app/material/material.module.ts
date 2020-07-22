@@ -17,6 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const MaterialComponents = [CommonModule,
   BrowserAnimationsModule,
@@ -33,7 +35,9 @@ const MaterialComponents = [CommonModule,
   ReactiveFormsModule,
   MatInputModule,
   MatExpansionModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatSlideToggleModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({

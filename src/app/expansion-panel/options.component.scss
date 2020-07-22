@@ -1,3 +1,4 @@
+$primaryColor: rgb(39, 73, 223);
 .options {
   font-size: 32px;
   width: 100%;
@@ -8,4 +9,44 @@
 }
 .options-container {
   width: 100%;
+  height: auto;
+}
+.avatar-option {
+  height: 150px;
+  width: 150px;
+  display: flex;
+  margin: auto;
+  border: thin black solid;
+  border-radius: 15px;
+}
+.avatar-file-input {
+  margin: auto;
+  display: flex;
+  margin-top: 10px;
+}
+.avatar-hint {
+  font-size: 9px;
+  display: flex;
+  margin-left: 149px;
+  margin-top: 5px;
+}
+.change-password-container {
+  flex-direction: column;
+  margin: auto;
+  display: flex;
+  margin-bottom: 20px;
+  align-items: stretch;
+  justify-content: center;
+}
+.change-password-field {
+  margin-bottom: 5px;
+}
+mat-error {
+  margin-left: -9px;
+}
+.btn-change-password-submit {
+  margin-top: 15px;
+}
+.single-option-container {
+  margin: 15px;
 }

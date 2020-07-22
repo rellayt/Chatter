@@ -15,6 +15,10 @@ import { userSourceService } from './_services/users.service';
 import { OnlineUsersComponent } from './online-users/online-users.component';
 import { ExpansionPanelComponent, optionsDialog } from './expansion-panel/expansion-panel.component';
 import { PublicChannelOneComponent } from './public-channel-one/public-channel-one.component';
+import { avatarService } from './_services/avatar.service';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { publicMessageService } from './_services/public-messages-one';
+
 
 @NgModule({
   declarations: [
@@ -36,9 +40,10 @@ import { PublicChannelOneComponent } from './public-channel-one/public-channel-o
     AppRoutingModule,
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebase, 'chatter'),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireDatabaseModule,
   ],
-  providers: [userService, userSourceService],
+  providers: [userService, userSourceService, avatarService, publicMessageService],
   bootstrap: [MainNavComponent]
 })
 export class AppModule { }

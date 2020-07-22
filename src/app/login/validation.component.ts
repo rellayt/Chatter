@@ -3,7 +3,7 @@ import { FormGroupDirective, FormControl, NgForm, ValidationErrors, FormGroup, V
 
 
 export class userData {
-  constructor(public id: number, public username: string, public password: string, public logged = false, public idSource?: string) {
+  constructor(public id: number, public username: string, public password: string, public logged = false, public idSource?: string, public avatar?: string) {
   }
 }
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -15,8 +15,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export const userMatchValidator = (username: string, password: string, users: userData[]): ValidatorFn => {
   return (formGroup: FormGroup): ValidationErrors | null => {
-    console.log('USRNM', username, 'PASSWD', password);
-    console.log('USRNM2', users[0].username, 'PASSWD2', users[0].password);
     if (checkUsername(username, users) && checkPassword(password, users)) {
       return { userMismatch: false };
     }

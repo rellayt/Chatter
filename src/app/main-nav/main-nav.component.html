@@ -21,7 +21,7 @@
     <div class="toolbar">
       <mat-toolbar class="toolbar">
         <span class="h-word">RLT Chatter</span>
-        <ng-container *ngIf="userLogged; else userNotLogged">
+        <ng-container *ngIf="currentUser2.logged; else userNotLogged">
           <span class="welcome-field"
             >Welcome, {{ username }}
             <button
@@ -53,10 +53,10 @@
         </button>
       </mat-toolbar>
       <app-expansion-panel
-        [isLogged]="userLogged"
+        [isLogged]="currentUser2.logged"
         [username]="username"
       ></app-expansion-panel>
-      <app-chatter></app-chatter>
+      <app-chatter [username]="username"></app-chatter>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

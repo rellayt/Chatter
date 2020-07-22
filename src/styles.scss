@@ -1,3 +1,5 @@
+$primaryColor: rgb(39, 73, 223);
+$errorColor: rgb(230, 25, 25);
 * {
   padding: 0;
   margin: 0;
@@ -36,7 +38,7 @@ body {
     background-position: 0% 0%;
   }
 }
-$primaryColor: rgb(39, 73, 223);
+
 .blue-snackbar {
   background-color: $primaryColor;
   color: white;
@@ -44,4 +46,23 @@ $primaryColor: rgb(39, 73, 223);
 .blue-snackbar button {
   background-color: $primaryColor;
   color: white;
+}
+.red-snackbar {
+  background-color: $errorColor;
+  color: rgb(0, 0, 0);
+}
+.red-snackbar button {
+  background-color: $errorColor;
+  color: rgb(0, 0, 0);
+}
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: $primaryColor !important;
+  margin: 0 auto;
+}
+.progress-spinner-div {
+  position: relative;
+  margin-left: 36%;
+  margin-right: 50%;
+  margin-bottom: 5%;
 }

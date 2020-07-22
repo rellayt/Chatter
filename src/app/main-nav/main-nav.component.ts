@@ -17,12 +17,14 @@ export class MainNavComponent implements OnInit, OnChanges {
 
   @ViewChild(LoginComponent) loginCmp;
 
+  users: userData[];
   currentUser: userData = { id: null, username: '', password: '', logged: false };
+  currentUser2: userData = { id: null, username: '', password: '', logged: false };
 
   userLogged = false;
   username: string;
 
-  users: userData[];
+
 
   constructor(private breakpointObserver: BreakpointObserver, private userData: userService, public userSourceService: userSourceService, private snackBar: MatSnackBar) { }
 
@@ -36,11 +38,17 @@ export class MainNavComponent implements OnInit, OnChanges {
       this.currentUser = user;
       this.username = user.username;
       this.userLogged = user.logged;
+      this.currentUser2.logged = user.logged;
     }
     );
     this.userLogged = this.currentUser.logged;
     this.userSourceService.getUsers().subscribe(users => {
       this.users = users;
+      if (this.username) {
+        this.currentUser2 = this.users.find(x => x.username === this.username);
+      } else {
+        this.currentUser2.logged = false;
+      }
     });
   }
   openSnackBar() {
@@ -67,7 +75,12 @@ export class MainNavComponent implements OnInit, OnChanges {
     this.currentUser = this.users.find(user => user.username === this.currentUser.username);
     this.currentUser.logged = false;
     this.userSourceService.changeUserStatus(this.currentUser);
+    if (!this.username) {
+      this.currentUser2.logged = false;
+    }
     this.openSnackBar();
   }
-
+  test() {
+    console.log(this.currentUser.logged);
+  }
 }

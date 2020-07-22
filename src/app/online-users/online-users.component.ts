@@ -19,7 +19,6 @@ export class OnlineUsersComponent implements OnInit {
     this.userService.getUsers().subscribe(users => {
       this.users = users;
       this.onlineUsers = this.users.filter(user => user.logged);
-      console.log(this.onlineUsers);
     });
   }
 

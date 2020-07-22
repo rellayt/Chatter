@@ -76,10 +76,13 @@ export class registerDialog implements OnInit {
     const findUser = this.users.find(x => x.username === this.username) ? true : false;
     const comparePasswords = (this.password === this.confirmPassword) ? true : false;
     const minMaxNameLen = (this.username.length >= 3 && this.username.length <= 12) ? true : false;
-    const minPasswordLen = (this.password.length >= 6) ? true : false;
+    const minPasswordLen = (this.password.length > 6) ? true : false;
     const maxUserID = this.users.reduce((a, b) => a.id > b.id ? a : b).id;
 
-    console.log('Max: ' + maxUserID);
+    if (!findUser && comparePasswords && minMaxNameLen && minPasswordLen) {
+      this.registerConfirmation = true;
+    }
+
     if (findUser) {
       this.usernameFormControl.setErrors({ 'sameUsername': true });
       this.registerConfirmation = false;
@@ -102,7 +105,6 @@ export class registerDialog implements OnInit {
       this.userToAdd.id = maxUserID + 1;
       this.userToAdd.username = this.username;
       this.userToAdd.password = this.password;
-      console.log(this.userToAdd);
       this.userService.addUsers(this.userToAdd);
       this.dialogRef.close();
       this.openSnackBar();

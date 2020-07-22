@@ -1,22 +1,142 @@
 <div mat-dialog-content cdkFocusInitial class="options-container">
   <span class="options"> Options</span>
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Change avatar
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <input type="file" />
-  </mat-expansion-panel>
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Change password
-        <input matNativeControl />
-        <input matNativeControl />
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-  </mat-expansion-panel>
+  <div class="single-option-container">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Avatar
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container *ngIf="currentUser.avatar; else noAvatar">
+        <ng-container *ngIf="loading; else avatar">
+          <div class="progress-spinner-div">
+            <mat-progress-spinner class="mat-progress-spinner" [mode]="mode">
+            </mat-progress-spinner>
+          </div>
+        </ng-container>
+        <ng-template #avatar>
+          <img class="avatar-option" src="{{currentUser.avatar}}" />
+        </ng-template>
+      </ng-container>
+      <ng-template #noAvatar>
+        <ng-container *ngIf="loading">
+          <div class="progress-spinner-div">
+            <mat-progress-spinner class="mat-progress-spinner" [mode]="mode">
+            </mat-progress-spinner>
+          </div>
+        </ng-container>
+      </ng-template>
+      <button
+        class="avatar-file-input"
+        mat-raised-button
+        (click)="fileInput.click()"
+      >
+        Choose image
+        <input
+          #fileInput
+          type="file"
+          (change)="selectedAvatar($event)"
+          style="display: none;"
+        />
+      </button>
+      <mat-hint class="avatar-hint">256x256px, JPEG, PNG</mat-hint>
+    </mat-expansion-panel>
+  </div>
+  <div class="single-option-container">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Password
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="change-password-container">
+        <mat-form-field appearance="fill" class="change-password-field">
+          <mat-label>password</mat-label>
+          <input
+            matInput
+            [(ngModel)]="oldPassword"
+            [errorStateMatcher]="matcher"
+            [formControl]="oldPasswordFormControl"
+            [type]="hide ? 'password' : 'text'"
+          />
+          <mat-error *ngIf="oldPasswordFormControl.hasError('required')">
+            Old password is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="oldPasswordFormControl.hasError('samePasswords')">
+            Old password is <strong>incorrect</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="change-password-field">
+          <mat-label>new password</mat-label>
+          <input
+            matInput
+            [(ngModel)]="newPassword"
+            [errorStateMatcher]="matcher"
+            [formControl]="newPasswordFormControl"
+            [type]="hide ? 'password' : 'text'"
+          />
+          <mat-error *ngIf="newPasswordFormControl.hasError('required')">
+            New password is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="newPasswordFormControl.hasError('minPassLen')">
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="change-password-field">
+          <mat-label>confirm new password</mat-label>
+          <input
+            matInput
+            [(ngModel)]="confirmNewPassword"
+            [errorStateMatcher]="matcher"
+            [formControl]="confirmNewPasswordFormControl"
+            [type]="hide ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="confirmNewPasswordFormControl.hasError('required')">
+            Confirmed password is <strong>required</strong>
+          </mat-error>
+          <mat-error
+            *ngIf="confirmNewPasswordFormControl.hasError('minPassLen')"
+          >
+            Password length must be <strong>greater</strong> than
+            <strong>6</strong> characters
+          </mat-error>
+          <mat-error
+            *ngIf="confirmNewPasswordFormControl.hasError('sameNewPasswords')"
+          >
+            Passwords must <strong>match</strong>
+          </mat-error>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          class="btn-change-password-submit"
+          (click)="changePassword()"
+        >
+          Submit
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </div>
+  <div class="single-option-container">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Theme
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-slide-toggle (click)="slideToggle()" [color]="color">
+        <ng-container *ngIf="checked; else nightTheme"
+          >Night theme</ng-container
+        >
+        <ng-template #nightTheme>Day theme</ng-template>
+      </mat-slide-toggle>
+    </mat-expansion-panel>
+  </div>
 </div>

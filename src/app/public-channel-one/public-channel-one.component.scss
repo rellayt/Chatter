@@ -1,21 +1,22 @@
 $primaryColor: rgb(39, 73, 223);
 .public-channel-container {
   width: 60%;
-  height: 700px;
+  height: 600px;
   background-color: $primaryColor;
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   position: relative;
   text-align: center;
   color: white;
   box-shadow: 0px 0px 4px rgb(0, 0, 0);
   margin: auto;
   margin-top: 50px;
-  // margin-left: 20px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: left;
   margin-bottom: 20px;
+  max-width: 60%;
 }
 .messages {
   height: 700px;
@@ -24,17 +25,171 @@ $primaryColor: rgb(39, 73, 223);
   align-items: flex-start;
 }
 .single-message {
-  font-size: 17px;
+  font-size: 15px;
   color: black;
   background-color: white;
   width: auto;
   border-radius: 15px;
-  margin-top: 10px;
-  padding: 12px;
+  padding: 10px;
   align-self: flex-end;
   margin-right: auto;
-  max-width: 87%;
+  max-width: 70%;
+  margin-left: 13px;
 }
 .inner-message {
+  text-align: initial;
   opacity: 1;
+}
+
+.inner-avatar-message {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  border-radius: 25%;
+  position: relative;
+  overflow: hidden;
+  margin-left: 5px;
+  text-align: initial;
+  & > img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.outter-messages {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: 4px;
+  text-align: left;
+}
+
+.username-message {
+  margin-left: 73px;
+  padding-top: 23px;
+  font-size: 12px;
+  margin-bottom: -10px;
+}
+
+.date-message {
+  top: 34px;
+  color: white;
+  float: right;
+  position: relative;
+  font-size: 11px;
+  margin-right: -27px;
+  right: 26px;
+}
+
+.default-avatar {
+  font-size: 49px;
+}
+.public-channel-outter-textbox {
+  width: 60%;
+  height: 110px;
+  background-color: $primaryColor;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0px 0px 4px rgb(0, 0, 0);
+  margin: auto;
+  margin-top: -20px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: left;
+  margin-bottom: 20px;
+  max-width: 60%;
+}
+.public-channel-inner-textbox {
+  background-color: white;
+  width: 75%;
+  height: 80%;
+  border-radius: 15px;
+  margin-bottom: auto;
+  margin-top: 9px;
+  margin-left: 18px;
+}
+.public-channel-textbox {
+  font-size: 16px;
+  width: 75%;
+  height: 48px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 14px;
+  padding: 10px;
+  padding-bottom: 30px;
+  top: 27px;
+  border: none;
+  background-color: white;
+  border-radius: 15px;
+  color: black;
+  font-family: "Poppins", sans-serif;
+  max-height: 80%;
+}
+textarea {
+  overflow: hidden;
+  resize: none;
+  border: none;
+  outline: none;
+}
+.public-channel-send {
+  font-size: 35px;
+  padding: 0px;
+  color: rgb(255, 255, 255);
+  padding-right: 5px;
+}
+.public-channel-send-hover {
+  color: white;
+  margin-top: 32px;
+  margin-left: 15px;
+}
+
+.public-channel-insphoto {
+  font-size: 35px;
+  padding: 0px;
+  color: rgb(255, 255, 255);
+  padding-top: 2px;
+  padding-right: 10px;
+}
+
+.public-channel-insphoto-hover {
+  color: white;
+  margin-top: 32px;
+  margin-left: 35px;
+}
+
+.public-channel-attach {
+  font-size: 35px;
+  padding: 0px;
+  color: rgb(255, 255, 255);
+  padding-top: 2px;
+  padding-right: 10px;
+}
+
+.public-channel-attach-hover {
+  color: white;
+  margin-top: 32px;
+  margin-left: 35px;
+}
+
+@media screen and (max-width: 900px) {
+  .public-channel-outter-textbox {
+    margin-left: 64px;
+  }
+}
+
+.message-value {
+  color: white;
+  font-size: 11px;
+  display: flex;
+  margin-top: 81px;
+  flex-direction: row;
+  margin-left: -198px;
 }

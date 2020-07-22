@@ -3,9 +3,57 @@
   <hr />
   <div class="messages">
     <ng-container *ngFor="let message of channelOneMessages">
-      <div class="single-message">
-        <span class="inner-message">{{ message.message }}</span>
+      <span class="username-message">{{ getUsername(message.userId) }}</span>
+      <div class="outter-messages">
+        <div class="inner-avatar-message">
+          <ng-container *ngIf="checkAvatar(message.userId); else noAvatar">
+            <img src="{{ getAvatar(message.userId) }}" />
+          </ng-container>
+          <ng-template #noAvatar>
+            <mat-icon class="default-avatar">account_box</mat-icon>
+          </ng-template>
+        </div>
+        <div class="single-message">
+          <span class="inner-message">{{ message.message }}</span>
+          <ng-container *ngIf="checkForDate(message.messageId); else shortDate">
+            <span class="date-message">{{
+              getLongDate(message.messageId)
+            }}</span>
+          </ng-container>
+          <ng-template #shortDate>
+            <span class="date-message">{{
+              getShortDate(message.messageId)
+            }}</span>
+          </ng-template>
+        </div>
       </div>
     </ng-container>
   </div>
+</div>
+<div class="public-channel-outter-textbox">
+  <textarea
+    class="public-channel-textbox"
+    #message
+    maxlength="300"
+    (input)="limitLines($event, 3)"
+    ng-enter="sendMessage()"
+    [(ngModel)]="inputMessage"
+  ></textarea>
+  <button
+    mat-icon-button
+    type="button"
+    class="public-channel-send-hover"
+    (click)="sendMessage()"
+  >
+    <mat-icon class="public-channel-send">send</mat-icon>
+  </button>
+
+  <button mat-icon-button type="button" class="public-channel-insphoto-hover">
+    <mat-icon class="public-channel-insphoto">insert_photo</mat-icon>
+  </button>
+
+  <button mat-icon-button type="button" class="public-channel-attach-hover">
+    <mat-icon class="public-channel-attach">attach_file</mat-icon>
+  </button>
+  <div class="message-value">{{ message.value.length }} / 300</div>
 </div>
