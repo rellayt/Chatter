@@ -2,8 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { messageData } from '../messageData';
 import { userSourceService } from '../_services/users.service';
 import { userData } from '../login/validation.component';
-import { avatarService } from '../_services/avatar.service';
+import { fileService } from '../_services/file.service';
 import { publicMessageService } from '../_services/public-messages-one';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { AfterViewChecked, ElementRef, ViewChild, } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-public-channel-one',
@@ -11,39 +14,92 @@ import { publicMessageService } from '../_services/public-messages-one';
   styleUrls: ['./public-channel-one.component.scss']
 })
 export class PublicChannelOneComponent implements OnInit {
+  @ViewChild('scrollMe')
+  private myScrollContainer: ElementRef;
 
   @Input()
   username: string;
 
+  @Input()
+  userLogged: boolean;
+
   date = new Date();
-  firstMessage: messageData = new messageData(0, 1, 0, '21.07.2020 12:05', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has');
-  secondMessage: messageData = new messageData(1, 1, 1, '22.07.2020 13:01', 'Hello');
-  thirdMessage: messageData = new messageData(2, 1, 2, '22.07.2020 14:08', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has');
-  channelOneMessages: messageData[] = [this.firstMessage, this.secondMessage, this.thirdMessage];
-  tempMessage: messageData;
+  channelOneMessages: messageData[];
+  public tempMessage: messageData = new messageData(0, 0, 0, '', '');
+  public sendTempMessage: messageData = new messageData(0, 0, 0, '', '');
   inputMessage: string;
 
+  init = 0;
 
-  publicMessagesStorage: messageData[];
   users: userData[];
-  currentUser: userData = { id: null, username: '', password: '', logged: false };
+  public currentUser: userData = { id: null, username: '', password: '', logged: false };
   tempUser: userData = { id: null, username: '', password: '', logged: false };
 
-  constructor(public userService: userSourceService, public avatars: avatarService, public publicMessages: publicMessageService) { }
+  // tslint:disable-next-line: max-line-length
+  constructor(private snackBar: MatSnackBar, public userService: userSourceService, public avatars: fileService, public publicMessages: publicMessageService) { }
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe(users => {
       this.users = users;
+      console.log('usrs', this.users);
+      console.log('this.username', this.username);
+
       this.currentUser = this.users.find(x => x.username === this.username);
+      // console.log('a', this.currentUser);
     });
     this.publicMessages.getPublicMessages().subscribe(messages => {
-      this.publicMessagesStorage = messages;
-      console.log('test', this.publicMessagesStorage);
-      console.log('test2', this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString()));
+      this.channelOneMessages = messages;
+      // console.log('test', this.channelOneMessages);
+      // console.log('test2', this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString()));
     });
+    // this.scrollToBottom();
+  }
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
   }
   sendMessage() {
-    console.log(this.inputMessage);
+    let maxMessageID = this.channelOneMessages.reduce((a, b) => a.messageId > b.messageId ? a : b).messageId;
+    // console.log('USER: ', this.currentUser);
+    if (this.currentUser) {
+      if (this.inputMessage !== '' && this.currentUser.logged) {
+        this.sendTempMessage.channelId = 1;
+        this.sendTempMessage.date = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
+        this.sendTempMessage.message = this.inputMessage;
+        this.sendTempMessage.messageId = maxMessageID + 1;
+        this.sendTempMessage.userId = this.currentUser.id;
+        console.log('msg', this.sendTempMessage);
+        this.publicMessages.addPublicMessage(this.sendTempMessage);
+        this.inputMessage = '';
+      }
+    }
+  }
+
+  checkUserMessage(userId: number): boolean {
+    // if (this.userLogged && this.init === 0) {
+    //   this.init++;
+    // }
+    // if (this.init === 1) {
+    //   this.ngOnInit();
+    // }
+    console.log('CURR USR', this.currentUser);
+    console.log('this.userLogged: ', this.userLogged)
+    this.currentUser = this.users.find(x => x.username === this.username);
+    if (this.currentUser) {
+      //  console.log('cr usr id: ', this.currentUser.id, ' userid: ', userId);
+      if (this.currentUser.id === userId && this.userLogged) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
   }
   createDate(localeDate: string, localeTime: string): string {
     const localeTimeShort = localeTime.substring(0, 5);
@@ -70,7 +126,7 @@ export class PublicChannelOneComponent implements OnInit {
   getLongDate(messageId: number): string {
     if (this.users) {
       this.tempMessage = this.channelOneMessages.find(x => x.messageId === messageId);
-      return this.tempMessage.date;
+      return this.tempMessage.date.substring(0, 5) + ' ' + this.tempMessage.date.substring(11, 16);
     }
   }
 
@@ -111,5 +167,36 @@ export class PublicChannelOneComponent implements OnInit {
         (event.target as HTMLTextAreaElement).value = newText;
       }
     }
+  }
+  uploadImage(event: any, message: messageData) {
+    const file: File = event.target.files[0];
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+      if (this.currentUser) {
+        //this.images.putImage(file, message);
+        this.openSnackBarSUC();
+      } else {
+        this.openSnackBarFAIL();
+      }
+
+    }
+    else {
+      this.openSnackBarFAIL();
+    }
+  }
+  openSnackBarFAIL() {
+    this.snackBar.open('Image upload failed', 'Cancel', {
+      duration: 1000,
+      horizontalPosition: 'end',
+      verticalPosition: 'bottom',
+      panelClass: ['red-snackbar']
+    });
+  }
+  openSnackBarSUC() {
+    this.snackBar.open('Image upload completed', 'Cancel', {
+      duration: 700,
+      horizontalPosition: 'end',
+      verticalPosition: 'bottom',
+      panelClass: ['blue-snackbar']
+    });
   }
 }

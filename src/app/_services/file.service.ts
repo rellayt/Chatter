@@ -7,24 +7,29 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { userData } from '../login/validation.component';
 import { userSourceService } from './users.service';
 import { BehaviorSubject } from 'rxjs';
+import { messageData } from '../messageData';
 
 @Injectable({
   providedIn: 'root'
 })
-export class avatarService {
-  avatarTemp: string = '';
-  private avatarSource = new BehaviorSubject<string>(this.avatarTemp);
+export class fileService {
+  Test: string = '';
+  private avatarSource = new BehaviorSubject<string>(this.Test);
   currentAvatar = this.avatarSource.asObservable();
+
+  private imageSource = new BehaviorSubject<string>(this.Test);
+  currentImage = this.imageSource.asObservable();
 
   constructor(public afs: AngularFirestore, public db: AngularFireDatabase, public userService: userSourceService) {
     firebase.initializeApp(environment.firebase);
     this.changeAvatarProperties('');
+    //this.changeImageProperties('');
   }
-  putImage(file: File, user: userData) {
+  putAvatar(file: File, user: userData) {
     const storageRef: firebase.storage.Reference = firebase.storage().ref(`/avatars/${user.id}`);
     storageRef.put(file);
   }
-  getImage(user: userData) {
+  getAvatar(user: userData) {
     let avatarURL = '';
     const storageRef: firebase.storage.Reference = firebase.storage().ref(`/avatars/${user.id}`);
 
@@ -42,5 +47,28 @@ export class avatarService {
   changeAvatarProperties(avatarURL: string) {
     this.avatarSource.next(avatarURL);
   }
+
+  // putImage(file: File, message: messageData) {
+  //   const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${message.messageId}`);
+  //   storageRef.put(file);
+  // }
+  // getImage(message: messageData) {
+  //   let imageURL = '';
+  //   const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${message.messageId}`);
+
+  //   if (storageRef.getDownloadURL()) {
+  //     const downloadURL = storageRef.getDownloadURL();
+  //     downloadURL.then(url => {
+  //       if (url) {
+  //         imageURL = url;
+  //         console.log('imageURL: ', imageURL);
+  //         this.changeImageProperties(imageURL);
+  //       }
+  //     });
+  //   }
+  // }
+  // changeImageProperties(avatarURL: string) {
+  //   this.imageSource.next(avatarURL);
+  // }
 }
 

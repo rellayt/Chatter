@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnChanges, Inject } from '@angular/core';
 import { userData, MyErrorStateMatcher } from '../login/validation.component';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { userSourceService } from '../_services/users.service';
-import { avatarService } from '../_services/avatar.service';
+import { fileService } from '../_services/file.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
@@ -100,7 +100,7 @@ export class optionsDialog implements OnInit {
   color: ThemePalette = 'primary';
 
   // tslint:disable-next-line: max-line-length
-  constructor(private snackBar: MatSnackBar, public dialogRef: MatDialogRef<optionsDialog>, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData, public userService: userSourceService, public avatars: avatarService) { }
+  constructor(private snackBar: MatSnackBar, public dialogRef: MatDialogRef<optionsDialog>, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData, public userService: userSourceService, public avatars: fileService) { }
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe(users => {
@@ -111,7 +111,7 @@ export class optionsDialog implements OnInit {
     });
     this.avatars.currentAvatar.subscribe(avatar => {
       while (this.avatarTaken === false) {
-        this.avatars.getImage(this.currentUser);
+        this.avatars.getAvatar(this.currentUser);
         if (this.currentUser.avatar) {
           if (avatar !== this.currentUser.avatar) {
             console.log('avatar ', avatar, 'usr av', this.currentUser.avatar);
@@ -125,7 +125,7 @@ export class optionsDialog implements OnInit {
       }
       while (this.newAvatar === true) {
         console.log('av: ', avatar);
-        this.avatars.getImage(this.currentUser);
+        this.avatars.getAvatar(this.currentUser);
         if (avatar) {
           this.currentUser.avatar = avatar;
           this.userService.changeUserStatus(this.currentUser);
@@ -178,14 +178,14 @@ export class optionsDialog implements OnInit {
     const file: File = event.target.files[0];
     if (file.type === 'image/jpeg' || file.type === 'image/png') {
       console.log(file);
-      this.avatars.putImage(file, this.currentUser);
+      this.avatars.putAvatar(file, this.currentUser);
       this.loading = true;
       if (this.currentUser.avatar) {
         this.avatarTaken = false;
-        this.avatars.getImage(this.currentUser);
+        this.avatars.getAvatar(this.currentUser);
       } else {
         this.newAvatar = true;
-        this.avatars.getImage(this.currentUser);
+        this.avatars.getAvatar(this.currentUser);
       }
       this.openSnackBarSUC();
     }

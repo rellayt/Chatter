@@ -56,7 +56,10 @@
         [isLogged]="currentUser2.logged"
         [username]="username"
       ></app-expansion-panel>
-      <app-chatter [username]="username"></app-chatter>
+      <app-chatter
+        [username]="username"
+        [userLogged]="userLogged"
+      ></app-chatter>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

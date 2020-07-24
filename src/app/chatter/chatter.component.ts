@@ -10,6 +10,8 @@ export class ChatterComponent implements OnInit {
   @Input()
   username: string;
 
+  @Input()
+  userLogged: boolean;
   constructor() { }
 
   ngOnInit(): void {

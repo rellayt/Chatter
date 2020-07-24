@@ -1,42 +1,80 @@
 <div class="public-channel-container">
   <h1>Public Channel One</h1>
   <hr />
-  <div class="messages">
+  <div #scrollMe class="messages">
     <ng-container *ngFor="let message of channelOneMessages">
-      <span class="username-message">{{ getUsername(message.userId) }}</span>
-      <div class="outter-messages">
-        <div class="inner-avatar-message">
-          <ng-container *ngIf="checkAvatar(message.userId); else noAvatar">
-            <img src="{{ getAvatar(message.userId) }}" />
-          </ng-container>
-          <ng-template #noAvatar>
-            <mat-icon class="default-avatar">account_box</mat-icon>
-          </ng-template>
+      <ng-container *ngIf="checkUserMessage(message.userId); else currentUser">
+        <span class="username-message">{{ getUsername(message.userId) }}</span>
+        <div class="outter-messages">
+          <div class="inner-avatar-message">
+            <ng-container *ngIf="checkAvatar(message.userId); else noAvatar">
+              <img src="{{ getAvatar(message.userId) }}" />
+            </ng-container>
+            <ng-template #noAvatar>
+              <mat-icon class="default-avatar">account_box</mat-icon>
+            </ng-template>
+          </div>
+          <div class="single-message">
+            <span class="inner-message">{{ message.message }}</span>
+            <ng-container
+              *ngIf="checkForDate(message.messageId); else shortDate"
+            >
+              <span class="date-long-message">{{
+                getLongDate(message.messageId)
+              }}</span>
+            </ng-container>
+            <ng-template #shortDate>
+              <span class="date-message">{{
+                getShortDate(message.messageId)
+              }}</span>
+            </ng-template>
+          </div>
         </div>
-        <div class="single-message">
-          <span class="inner-message">{{ message.message }}</span>
-          <ng-container *ngIf="checkForDate(message.messageId); else shortDate">
-            <span class="date-message">{{
-              getLongDate(message.messageId)
-            }}</span>
-          </ng-container>
-          <ng-template #shortDate>
-            <span class="date-message">{{
-              getShortDate(message.messageId)
-            }}</span>
-          </ng-template>
+      </ng-container>
+      <!-- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
+      <ng-template #currentUser>
+        <div class="current-user-container">
+          <div class="outter-messages-2">
+            <div class="single-message-2">
+              <span class="username-message-2"><strong>You</strong></span>
+              <span class="inner-message-2">{{ message.message }}</span>
+              <ng-container
+                *ngIf="checkForDate(message.messageId); else shortDate"
+              >
+                <span class="date-long-message-2">
+                  {{ getLongDate(message.messageId) }}
+                </span>
+              </ng-container>
+              <ng-template #shortDate>
+                <span class="date-message-2">
+                  {{ getShortDate(message.messageId) }}
+                </span>
+              </ng-template>
+            </div>
+            <div class="inner-avatar-message-2">
+              <ng-container *ngIf="checkAvatar(message.userId); else noAvatar">
+                <img src="{{ getAvatar(message.userId) }}" />
+              </ng-container>
+              <ng-template #noAvatar>
+                <mat-icon class="default-avatar-2">account_box</mat-icon>
+              </ng-template>
+            </div>
+          </div>
         </div>
-      </div>
+      </ng-template>
+      <!-- BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB -->
     </ng-container>
   </div>
+  <hr />
 </div>
+
 <div class="public-channel-outter-textbox">
   <textarea
     class="public-channel-textbox"
     #message
     maxlength="300"
-    (input)="limitLines($event, 3)"
-    ng-enter="sendMessage()"
+    (input)="limitLines($event, 1)"
+    (keyup.enter)="sendMessage()"
     [(ngModel)]="inputMessage"
   ></textarea>
   <button
@@ -47,9 +85,18 @@
   >
     <mat-icon class="public-channel-send">send</mat-icon>
   </button>
-
-  <button mat-icon-button type="button" class="public-channel-insphoto-hover">
+  <button
+    class="public-channel-insphoto-hover"
+    mat-icon-button
+    (click)="fileInput.click()"
+  >
     <mat-icon class="public-channel-insphoto">insert_photo</mat-icon>
+    <input
+      #fileInput
+      type="file"
+      (change)="uploadImage($event, message)"
+      style="display: none;"
+    />
   </button>
 
   <button mat-icon-button type="button" class="public-channel-attach-hover">
