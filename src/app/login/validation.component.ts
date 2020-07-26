@@ -1,11 +1,7 @@
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormGroupDirective, FormControl, NgForm, ValidationErrors, FormGroup, ValidatorFn } from '@angular/forms';
+import { userData } from '../userData';
 
-
-export class userData {
-  constructor(public id: number, public username: string, public password: string, public logged = false, public idSource?: string, public avatar?: string) {
-  }
-}
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;

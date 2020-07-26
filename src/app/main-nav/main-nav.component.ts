@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { LoginComponent } from '../login/login.component';
 import { userService } from '../_services/user.service';
-import { userData } from '../login/validation.component';
+import { userData } from '../userData';
 import { userSourceService } from '../_services/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -79,8 +79,5 @@ export class MainNavComponent implements OnInit, OnChanges {
       this.currentUser2.logged = false;
     }
     this.openSnackBar();
-  }
-  test() {
-    console.log(this.currentUser.logged);
   }
 }

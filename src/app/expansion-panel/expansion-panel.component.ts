@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, Inject } from '@angular/core';
-import { userData, MyErrorStateMatcher } from '../login/validation.component';
+import { MyErrorStateMatcher } from '../login/validation.component';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { userSourceService } from '../_services/users.service';
 import { fileService } from '../_services/file.service';
@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { userService } from '../_services/user.service';
+import { userData } from '../userData';
 
 export interface DialogData {
   username: string;
@@ -91,13 +91,14 @@ export class optionsDialog implements OnInit {
   changePasswordConfirmation = true;
 
   checked = false;
+  color: ThemePalette = 'primary';
 
   loading = false;
   avatarTaken = true;
   newAvatar = false;
 
   mode: ProgressSpinnerMode = 'indeterminate';
-  color: ThemePalette = 'primary';
+
 
   // tslint:disable-next-line: max-line-length
   constructor(private snackBar: MatSnackBar, public dialogRef: MatDialogRef<optionsDialog>, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData, public userService: userSourceService, public avatars: fileService) { }
@@ -114,7 +115,6 @@ export class optionsDialog implements OnInit {
         this.avatars.getAvatar(this.currentUser);
         if (this.currentUser.avatar) {
           if (avatar !== this.currentUser.avatar) {
-            console.log('avatar ', avatar, 'usr av', this.currentUser.avatar);
             this.currentUser.avatar = avatar;
             this.userService.changeUserStatus(this.currentUser);
             this.loading = false;
@@ -124,7 +124,6 @@ export class optionsDialog implements OnInit {
         }
       }
       while (this.newAvatar === true) {
-        console.log('av: ', avatar);
         this.avatars.getAvatar(this.currentUser);
         if (avatar) {
           this.currentUser.avatar = avatar;
@@ -177,7 +176,6 @@ export class optionsDialog implements OnInit {
   selectedAvatar(event: any) {
     const file: File = event.target.files[0];
     if (file.type === 'image/jpeg' || file.type === 'image/png') {
-      console.log(file);
       this.avatars.putAvatar(file, this.currentUser);
       this.loading = true;
       if (this.currentUser.avatar) {
@@ -204,7 +202,6 @@ export class optionsDialog implements OnInit {
     if (!compareOldPasswords) {
       this.oldPasswordFormControl.setErrors({ 'samePasswords': true });
       this.changePasswordConfirmation = false;
-      console.log('LOL', this.oldPasswordFormControl);
     }
     if (!compareNewPasswords) {
       this.newPasswordFormControl.setErrors({ 'sameNewPasswords': true });

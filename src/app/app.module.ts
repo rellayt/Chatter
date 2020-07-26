@@ -18,6 +18,7 @@ import { PublicChannelOneComponent } from './public-channel-one/public-channel-o
 import { fileService } from './_services/file.service';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { publicMessageService } from './_services/public-messages-one';
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { publicMessageService } from './_services/public-messages-one';
     OnlineUsersComponent,
     ExpansionPanelComponent,
     PublicChannelOneComponent,
-    optionsDialog
+    optionsDialog,
+    SidenavComponent
   ],
   entryComponents: [LoginComponent, loginDialog, RegisterComponent, registerDialog, optionsDialog],
   imports: [

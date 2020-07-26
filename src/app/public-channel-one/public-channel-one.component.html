@@ -6,6 +6,14 @@
       <ng-container *ngIf="checkUserMessage(message.userId); else currentUser">
         <span class="username-message">{{ getUsername(message.userId) }}</span>
         <div class="outter-messages">
+          <ng-container
+            *ngIf="checkIfUserLogged(message.userId); else userNotLogged"
+          >
+            <span class="online-circle"></span>
+          </ng-container>
+          <ng-template #userNotLogged>
+            <span class="offline-circle"></span>
+          </ng-template>
           <div class="inner-avatar-message">
             <ng-container *ngIf="checkAvatar(message.userId); else noAvatar">
               <img src="{{ getAvatar(message.userId) }}" />
@@ -15,19 +23,64 @@
             </ng-template>
           </div>
           <div class="single-message">
-            <span class="inner-message">{{ message.message }}</span>
-            <ng-container
-              *ngIf="checkForDate(message.messageId); else shortDate"
-            >
-              <span class="date-long-message">{{
-                getLongDate(message.messageId)
-              }}</span>
+            <!-- NOT IMAGE AND FILE -->
+            <ng-container *ngIf="!message.image && !message.fileUrl">
+              <span class="inner-message">{{ message.message }}</span>
+              <ng-container
+                *ngIf="checkForDate(message.messageId); else shortDate"
+              >
+                <span class="date-long-message">{{
+                  getLongDate(message.messageId)
+                }}</span>
+              </ng-container>
+              <ng-template #shortDate>
+                <span class="date-message">{{
+                  getShortDate(message.messageId)
+                }}</span>
+              </ng-template>
             </ng-container>
-            <ng-template #shortDate>
-              <span class="date-message">{{
-                getShortDate(message.messageId)
-              }}</span>
-            </ng-template>
+            <!-- IMAGE -->
+            <ng-container *ngIf="message.image && !message.fileUrl">
+              <span class="inner-message-image">{{ message.message }}</span>
+              <div class="align-image">
+                <a href="{{ message.image }}" target="_blank">
+                  <img class="image-message" src="{{ message.image }}" />
+                </a>
+              </div>
+              <ng-container
+                *ngIf="checkForDate(message.messageId); else shortDate"
+              >
+                <span class="date-long-message-image">{{
+                  getLongDate(message.messageId)
+                }}</span>
+              </ng-container>
+              <ng-template #shortDate>
+                <span class="date-message-image">{{
+                  getShortDate(message.messageId)
+                }}</span>
+              </ng-template>
+            </ng-container>
+            <!-- FILE -->
+            <ng-container *ngIf="!message.image && message.fileUrl">
+              <span class="inner-message">{{ message.message }}</span>
+              <!-- <div class="align-file"> -->
+              <br /><a href="{{ message.fileUrl }}" download>
+                {{ message.fileName }}</a
+              >
+              <!-- </div> -->
+              <ng-container
+                *ngIf="checkForDate(message.messageId); else shortDate"
+              >
+                <span class="date-long-message-image">{{
+                  getLongDate(message.messageId)
+                }}</span>
+              </ng-container>
+              <ng-template #shortDate>
+                <span class="date-message-image">{{
+                  getShortDate(message.messageId)
+                }}</span>
+              </ng-template>
+            </ng-container>
           </div>
         </div>
       </ng-container>
@@ -37,7 +90,30 @@
           <div class="outter-messages-2">
             <div class="single-message-2">
               <span class="username-message-2"><strong>You</strong></span>
-              <span class="inner-message-2">{{ message.message }}</span>
+              <!-- CURRENT USER -->
+              <ng-container *ngIf="!message.image && !message.fileUrl">
+                <span class="inner-message-2">{{ message.message }}</span>
+              </ng-container>
+              <!-- CURRENT USER IMAGE -->
+              <ng-container *ngIf="message.image">
+                <span class="inner-message-image">{{ message.message }}</span>
+                <div class="align-image">
+                  <a href="{{ message.image }}" target="_blank">
+                    <img class="image-message-2" src="{{ message.image }}" />
+                  </a>
+                </div>
+              </ng-container>
+              <!-- CURRENT USER FILE -->
+              <ng-container *ngIf="message.fileUrl && !message.image">
+                <span class="inner-message-2">{{ message.message }}</span>
+                <br /><a
+                  class="inner-file-message"
+                  href="{{ message.fileUrl }}"
+                  download
+                >
+                  {{ message.fileName }}</a
+                >
+              </ng-container>
               <ng-container
                 *ngIf="checkForDate(message.messageId); else shortDate"
               >
@@ -67,40 +143,137 @@
   </div>
   <hr />
 </div>
+<!-- NO UPLOADED IMAGE AND FILE -->
+<ng-container *ngIf="!uploadedPhoto && !uploadedFile">
+  <div class="public-channel-outter-textbox">
+    <textarea
+      #message
+      class="public-channel-textbox"
+      maxlength="300"
+      (input)="limitLines($event, 1)"
+      (keyup.enter)="sendMessage()"
+      [(ngModel)]="inputMessage"
+    ></textarea>
+    <button
+      mat-icon-button
+      type="button"
+      class="public-channel-send-hover"
+      (click)="sendMessage()"
+    >
+      <mat-icon class="public-channel-send">send</mat-icon>
+    </button>
+    <button
+      class="public-channel-insphoto-hover"
+      mat-icon-button
+      (click)="fileInput.click()"
+    >
+      <mat-icon class="public-channel-insphoto">insert_photo</mat-icon>
+      <input
+        #fileInput
+        type="file"
+        (change)="uploadImage($event)"
+        style="display: none;"
+      />
+    </button>
 
-<div class="public-channel-outter-textbox">
-  <textarea
-    class="public-channel-textbox"
-    #message
-    maxlength="300"
-    (input)="limitLines($event, 1)"
-    (keyup.enter)="sendMessage()"
-    [(ngModel)]="inputMessage"
-  ></textarea>
-  <button
-    mat-icon-button
-    type="button"
-    class="public-channel-send-hover"
-    (click)="sendMessage()"
-  >
-    <mat-icon class="public-channel-send">send</mat-icon>
-  </button>
-  <button
-    class="public-channel-insphoto-hover"
-    mat-icon-button
-    (click)="fileInput.click()"
-  >
-    <mat-icon class="public-channel-insphoto">insert_photo</mat-icon>
-    <input
-      #fileInput
-      type="file"
-      (change)="uploadImage($event, message)"
-      style="display: none;"
-    />
-  </button>
+    <button
+      mat-icon-button
+      class="public-channel-attach-hover"
+      (click)="fileInput2.click()"
+    >
+      <mat-icon class="public-channel-attach">attach_file</mat-icon>
+      <input
+        #fileInput2
+        type="file"
+        (change)="uploadFile($event)"
+        style="display: none;"
+      />
+    </button>
+    <div class="message-value">{{ message.value.length }} / 300</div>
+  </div>
+</ng-container>
+<!-- UPLOADED IMAGE -->
+<ng-container *ngIf="uploadedPhoto">
+  <div class="public-channel-outter-textbox">
+    <textarea
+      #message
+      class="public-channel-textbox"
+      maxlength="150"
+      (input)="limitLines($event, 1)"
+      (keyup.enter)="sendMessage()"
+      [(ngModel)]="inputMessage"
+    ></textarea>
+    <button
+      mat-icon-button
+      type="button"
+      class="public-channel-send-hover"
+      (click)="sendMessage()"
+    >
+      <mat-icon class="public-channel-send">send</mat-icon>
+    </button>
+    <button
+      class="public-channel-insphoto-hover"
+      mat-icon-button
+      (click)="fileInput.click()"
+    >
+      <mat-icon class="public-channel-insphoto">insert_photo</mat-icon>
+      <input
+        #fileInput
+        type="file"
+        (change)="uploadImage($event)"
+        style="display: none;"
+      />
+    </button>
 
-  <button mat-icon-button type="button" class="public-channel-attach-hover">
-    <mat-icon class="public-channel-attach">attach_file</mat-icon>
-  </button>
-  <div class="message-value">{{ message.value.length }} / 300</div>
-</div>
+    <button mat-icon-button type="button" class="public-channel-attach-hover">
+      <mat-icon class="public-channel-attach">attach_file</mat-icon>
+    </button>
+    <div class="message-value">{{ message.value.length }} / 150</div>
+    <span class="uploaded-image-filename">{{ fileName }}</span>
+  </div>
+</ng-container>
+<!-- UPLOADED FILE -->
+<ng-container *ngIf="uploadedFile">
+  <div class="public-channel-outter-textbox">
+    <textarea
+      #message
+      class="public-channel-textbox"
+      maxlength="250"
+      (input)="limitLines($event, 1)"
+      (keyup.enter)="sendMessage()"
+      [(ngModel)]="inputMessage"
+    ></textarea>
+    <button
+      mat-icon-button
+      type="button"
+      class="public-channel-send-hover"
+      (click)="sendMessage()"
+    >
+      <mat-icon class="public-channel-send">send</mat-icon>
+    </button>
+    <button
+      class="public-channel-insphoto-hover"
+      mat-icon-button
+      (click)="fileInput.click()"
+    >
+      <mat-icon class="public-channel-insphoto">insert_photo</mat-icon>
+      <input
+        #fileInput
+        type="file"
+        (change)="uploadImage($event)"
+        style="display: none;"
+      />
+    </button>
+
+    <button
+      mat-icon-button
+      type="button"
+      (change)="uploadFile($event)"
+      class="public-channel-attach-hover"
+    >
+      <mat-icon class="public-channel-attach">attach_file</mat-icon>
+    </button>
+    <div class="message-value">{{ message.value.length }} / 250</div>
+    <span class="uploaded-file-filename">{{ fileName }}</span>
+  </div>
+</ng-container>

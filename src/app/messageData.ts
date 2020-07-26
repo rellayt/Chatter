@@ -1,4 +1,4 @@
 export class messageData {
-  constructor(public messageId: number, public channelId: number, public userId: number, public date: string, public message: string, public image?: string, public idSource?: string) {
+  constructor(public messageId: number, public channelId: number, public userId: number, public date: string, public message: string, public image?: string, public fileUrl?: string, public fileName?: string, public idSource?: string) {
   }
 }

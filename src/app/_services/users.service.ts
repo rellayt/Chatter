@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestore } from 'angularfire2/firestore';
-import { userData } from '../login/validation.component';
+import { userData } from '../userData';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 
@@ -33,5 +33,13 @@ export class userSourceService {
     user = JSON.parse(JSON.stringify(user));
     this.userDoc = this.afs.doc(`users/${user.idSource}`)
     this.userDoc.update(user);
+  }
+  incUserMessages(user: userData) {
+    if (!user.messagesCount) {
+      user.messagesCount = 1;
+    } else {
+      user.messagesCount++;
+    }
+    this.changeUserStatus(user);
   }
 }

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase';
-import { AngularFireModule } from 'angularfire2';
 import { environment } from 'src/environments/environment';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { userData } from '../login/validation.component';
+import { userData } from '../userData';
 import { userSourceService } from './users.service';
 import { BehaviorSubject } from 'rxjs';
-import { messageData } from '../messageData';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +19,26 @@ export class fileService {
   private imageSource = new BehaviorSubject<string>(this.Test);
   currentImage = this.imageSource.asObservable();
 
+  private fileSource = new BehaviorSubject<string>(this.Test);
+  currentFile = this.fileSource.asObservable();
+
   constructor(public afs: AngularFirestore, public db: AngularFireDatabase, public userService: userSourceService) {
     firebase.initializeApp(environment.firebase);
     this.changeAvatarProperties('');
-    //this.changeImageProperties('');
+    // this.changeImageProperties('');
   }
   putAvatar(file: File, user: userData) {
     const storageRef: firebase.storage.Reference = firebase.storage().ref(`/avatars/${user.id}`);
+    storageRef.put(file);
+  }
+  putImage(file: File, messageId: number) {
+    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${messageId}`);
+    storageRef.put(file);
+  }
+  putFile(file: File, messageId: number) {
+    const fileName = file.name;
+
+    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/files/${messageId}/${fileName}`);
     storageRef.put(file);
   }
   getAvatar(user: userData) {
@@ -38,8 +50,39 @@ export class fileService {
       downloadURL.then(url => {
         if (url) {
           avatarURL = url;
-          console.log('AVATAR URL: ', avatarURL);
           this.changeAvatarProperties(avatarURL);
+        }
+      });
+    }
+  }
+  getImage(messageId: number) {
+    let imageURL = '';
+    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${messageId}`);
+
+    if (storageRef.getDownloadURL()) {
+      const downloadURL = storageRef.getDownloadURL();
+
+      downloadURL.then(url => {
+        if (url) {
+          imageURL = url;
+          console.log('lol', url);
+          this.changeImageProperties(imageURL);
+        }
+      });
+    }
+  }
+  getFile(file: File, messageId: number) {
+    const fileName = file.name;
+
+    let fileURL = '';
+    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/files/${messageId}/${fileName}`);
+
+    if (storageRef.getDownloadURL()) {
+      const downloadURL = storageRef.getDownloadURL();
+      downloadURL.then(url => {
+        if (url) {
+          fileURL = url;
+          this.changeFileProperties(fileURL);
         }
       });
     }
@@ -47,28 +90,12 @@ export class fileService {
   changeAvatarProperties(avatarURL: string) {
     this.avatarSource.next(avatarURL);
   }
+  changeImageProperties(imageURL: string) {
+    this.imageSource.next(imageURL);
+  }
+  changeFileProperties(fileURL: string) {
+    this.fileSource.next(fileURL);
+  }
 
-  // putImage(file: File, message: messageData) {
-  //   const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${message.messageId}`);
-  //   storageRef.put(file);
-  // }
-  // getImage(message: messageData) {
-  //   let imageURL = '';
-  //   const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${message.messageId}`);
-
-  //   if (storageRef.getDownloadURL()) {
-  //     const downloadURL = storageRef.getDownloadURL();
-  //     downloadURL.then(url => {
-  //       if (url) {
-  //         imageURL = url;
-  //         console.log('imageURL: ', imageURL);
-  //         this.changeImageProperties(imageURL);
-  //       }
-  //     });
-  //   }
-  // }
-  // changeImageProperties(avatarURL: string) {
-  //   this.imageSource.next(avatarURL);
-  // }
 }
 

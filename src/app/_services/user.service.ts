@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { userData } from '../login/validation.component';
+import { userData } from '../userData';
 
 @Injectable()
 

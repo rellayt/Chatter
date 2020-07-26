@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { userSourceService } from '../_services/users.service';
-import { userData } from '../login/validation.component';
+import { userData } from '../userData';
 
 @Component({
   selector: 'app-users',

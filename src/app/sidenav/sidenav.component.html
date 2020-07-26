@@ -1,0 +1,156 @@
+<mat-accordion class="sidenav-container" cdkFocusInitial>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-expansion-main">
+        <!-- USER INFORMATION -->
+        <span style="font-weight: 600;">User information</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngIf="checkIfUserLogged(); else notLogged">
+      <ng-container *ngIf="checkForAvatar()">
+        <img class="sidenav-avatar" src="{{ currentUser.avatar }}" /><br />
+      </ng-container>
+      <span class="sidenav-username">{{ currentUser.username }}</span>
+      <br />
+      <span class="sidenav-information"> ID: {{ currentUser.id }} </span><br />
+      <span class="sidenav-information"
+        >Registered: {{ modifyRegisterDate() }}</span
+      >
+      <br />
+      <span class="sidenav-information"
+        >Messages sent: {{ currentUser.messagesCount }}</span
+      >
+      <br />
+    </ng-container>
+    <ng-template #notLogged> None </ng-template>
+  </mat-expansion-panel>
+  <!-- USER LISTS -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-expansion-main">
+        User list
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-form-field class="sidenav-user-form" appearance="fill">
+      <mat-label>Search for a user</mat-label>
+      <input matInput type="text" [(ngModel)]="searchValue" />
+      <button
+        mat-button
+        *ngIf="searchValue"
+        matSuffix
+        mat-icon-button
+        (click)="searchValue = ''"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="user-list-container">
+      <ng-container *ngIf="users">
+        <mat-selection-list [multiple]="false" cdkFocusInitial>
+          <ng-container *ngFor="let user of createSearchArray()">
+            <mat-list-option>
+              {{ user.username }}
+            </mat-list-option>
+          </ng-container>
+          <ng-container *ngIf="!checkSearchArray()">
+            No result
+          </ng-container>
+        </mat-selection-list>
+      </ng-container>
+    </div>
+  </mat-expansion-panel>
+  <!-- UPLOADED IMAGES -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-expansion-main">
+        Uploaded images
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngIf="imagesArray">
+      <div class="images-container">
+        <span style="font-size: 14px; margin-bottom: 6px;"
+          >Count: {{ imagesArray.length }}
+        </span>
+        <ng-container *ngFor="let imageMessages of imagesArray">
+          <a href="{{ imageMessages.image }}" target="_blank">
+            <img
+              class="sidenav-image-message"
+              src="{{ imageMessages.image }}"
+            />
+          </a>
+        </ng-container>
+      </div>
+    </ng-container>
+  </mat-expansion-panel>
+  <!-- UPLOADED FILES -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-expansion-main">
+        Uploaded files
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngIf="filesArray">
+      <div class="files-container">
+        <span style="font-size: 14px; margin-bottom: 10px;"
+          >Count: {{ filesArray.length }}
+        </span>
+        <ng-container *ngFor="let fileMessages of filesArray">
+          <a
+            class="sidenav-file-message"
+            href="{{ fileMessages.fileUrl }}"
+            download
+          >
+            {{ fileMessages.fileName }}</a
+          >
+        </ng-container>
+      </div>
+    </ng-container>
+  </mat-expansion-panel>
+  <!-- TOTAL USERS -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-expansion-main">
+        Total users
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngIf="users">
+      <div class="total-param-container">
+        <span>{{ users.length }}</span>
+      </div>
+    </ng-container>
+  </mat-expansion-panel>
+  <!-- TOTAL MESSAGES -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-expansion-main">
+        Total messages
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngIf="messages">
+      <div class="total-param-container">
+        <span>{{ messages.length }}</span>
+      </div>
+    </ng-container>
+  </mat-expansion-panel>
+  <!-- THEME -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-expansion-main">
+        Theme
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-slide-toggle (click)="slideToggle()" [color]="color">
+      <ng-container *ngIf="checked; else nightTheme">Night theme</ng-container>
+      <ng-template #nightTheme>Day theme</ng-template>
+    </mat-slide-toggle>
+  </mat-expansion-panel>
+  <!-- AUTHOR -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-expansion-main">
+        Author
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="sidenav-author">Zbigniew Jaryst</div>
+  </mat-expansion-panel>
+</mat-accordion>

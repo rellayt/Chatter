@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject, Output, DoCheck, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { userMatchValidator, MyErrorStateMatcher, userData } from './validation.component';
+import { userMatchValidator, MyErrorStateMatcher } from './validation.component';
 import { EventEmitter } from '@angular/core';
 import { userService } from '../_services/user.service';
 import { userSourceService } from '../_services/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { userData } from '../userData';
 
 @Component({
   selector: 'app-login',
@@ -74,7 +74,6 @@ export class loginDialog implements OnInit, OnDestroy {
 
   isLogged() {
     this.eventTask.emit(this.userDataTemp);
-    console.log('CZY ZALOGOWANY? : ' + this.userLogged);
   }
 
   password: any;

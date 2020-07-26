@@ -1,10 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { userData, MyErrorStateMatcher } from '../login/validation.component';
+import { MyErrorStateMatcher } from '../login/validation.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { userSourceService } from '../_services/users.service';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { userData } from '../userData';
 
 @Component({
   selector: 'app-register',
@@ -37,7 +38,7 @@ export class registerDialog implements OnInit {
   username = '';
   password = '';
   confirmPassword = '';
-
+  date = new Date();
   registerConfirmation = true;
 
   users: userData[];
@@ -70,6 +71,11 @@ export class registerDialog implements OnInit {
     this.userService.getUsers().subscribe(users => {
       this.users = users;
     });
+  }
+
+  createDate(localeDate: string, localeTime: string): string {
+    const localeTimeShort = localeTime.substring(0, 5);
+    return localeDate + ' ' + localeTimeShort;
   }
 
   register(): void {
@@ -105,6 +111,8 @@ export class registerDialog implements OnInit {
       this.userToAdd.id = maxUserID + 1;
       this.userToAdd.username = this.username;
       this.userToAdd.password = this.password;
+      this.userToAdd.messagesCount = 0;
+      this.userToAdd.registeredDate = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
       this.userService.addUsers(this.userToAdd);
       this.dialogRef.close();
       this.openSnackBar();

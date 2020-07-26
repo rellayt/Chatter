@@ -1,0 +1,125 @@
+$primaryColor: rgb(39, 73, 223);
+.sidenav-container {
+}
+.mat-expansion-main {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 17px;
+}
+.sidenav-avatar {
+  margin: auto;
+  width: 90px;
+  height: 90px;
+  border-radius: 15%;
+  display: flex;
+  box-shadow: 0px 0px 3px;
+  border: 1px black solid;
+}
+.sidenav-information {
+  font-size: 17px;
+}
+.sidenav-username {
+  font-size: 19px;
+  font-weight: 500;
+  display: flex;
+  margin-left: 124px;
+}
+.images-container {
+  height: 690px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  padding: 7px;
+  align-items: center;
+}
+.sidenav-image-message {
+  margin-bottom: 10px;
+  max-height: 130px;
+  max-width: 130px;
+  min-width: 80px;
+  min-height: 80px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 1px;
+  border: 1px black solid;
+  opacity: 1;
+  transition: 300ms ease opacity;
+  &:hover {
+    opacity: 0.8;
+    transition: 300ms ease opacity;
+  }
+}
+.files-container {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  padding: 7px;
+  align-items: center;
+}
+.sidenav-file-message {
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  margin-bottom: 7px;
+  text-decoration: none;
+  opacity: 1;
+  transition: 300ms ease all;
+  transform: scale(1);
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+    transition: 300ms ease all;
+  }
+}
+
+div::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+}
+
+div::-webkit-scrollbar {
+  width: 12px;
+  background-color: rgb(255, 255, 255);
+}
+
+div::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: white;
+}
+.total-param-container {
+  display: flex;
+  flex-direction: column;
+  padding: 7px;
+  align-items: center;
+  font-size: 18px;
+}
+.sidenav-author {
+  @extend .total-param-container;
+  font-size: 22px;
+}
+.sidenav-user-form {
+  width: 290px;
+  font-size: 17px;
+}
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: black !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: black !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: black !important;
+}
+.user-list-container {
+  height: 610px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  align-items: center;
+}
