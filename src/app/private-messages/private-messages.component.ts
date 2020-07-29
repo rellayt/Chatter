@@ -109,6 +109,7 @@ export class privateMessagesDialog implements OnInit {
       console.log('user chat meesages', this.userChatMessages);
       let currentChat = this.userChatMessages.indexOf(this.currentMessages);
       console.log(currentChat);
+      // :0
     }
     this.inputPrivMessage = '';
   }
