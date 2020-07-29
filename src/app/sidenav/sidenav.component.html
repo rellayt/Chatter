@@ -1,4 +1,4 @@
-<mat-accordion class="sidenav-container" cdkFocusInitial>
+<mat-accordion class="sidenav-container">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title class="mat-expansion-main">
@@ -48,12 +48,12 @@
       <ng-container *ngIf="users">
         <mat-selection-list [multiple]="false" cdkFocusInitial>
           <ng-container *ngFor="let user of createSearchArray()">
-            <mat-list-option>
+            <mat-list-option (click)="openUserDialog(user.username, $event)">
               {{ user.username }}
             </mat-list-option>
           </ng-container>
           <ng-container *ngIf="!checkSearchArray()">
-            No result
+            <span class="sidenav-no-result">No result</span>
           </ng-container>
         </mat-selection-list>
       </ng-container>

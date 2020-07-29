@@ -1,0 +1,42 @@
+<div mat-dialog-content cdkFocusInitial>
+  <h1 mat-dialog-title style="font-size: 25px;">User</h1>
+  <ng-container *ngIf="checkForAvatar(); else noAvatar">
+    <div class="user-dialog-avatar-container">
+      <img class="user-dialog-avatar" src="{{checkedUser.avatar}}" />
+    </div>
+  </ng-container>
+
+  <ng-template #noAvatar>
+    <div class="avatar-container-default">
+      <mat-icon class="user-dialog-default-avatar">account_box</mat-icon>
+    </div>
+  </ng-template>
+
+  <ng-container *ngIf="checkIfOnline(); else notOnline">
+    <div class="online-circle-container">
+      <span class="online-circle"></span>
+    </div>
+    <div class="user-dialog-name-online">
+      <strong>{{checkedUser.username}}</strong>
+    </div>
+  </ng-container>
+  <ng-template #notOnline>
+    <div class="user-dialog-name-offline">
+      <strong>{{checkedUser.username}}</strong>
+    </div>
+  </ng-template>
+
+  ID: {{checkedUser.id}} <br />
+  <ng-container *ngIf="checkIfOnline(); else offline">
+    Online <br />
+  </ng-container>
+  <ng-template #offline>
+    Last online: {{modifyLastOnlineDate()}} <br />
+  </ng-template>
+
+  Registered: {{modifyRegisterDate()}} <br />
+  Messages sent: {{checkedUser.messagesCount}} <br />
+</div>
+<button mat-raised-button class="chat-button" mat-icon-button (click)="test()">
+  <mat-icon>chat</mat-icon>
+</button>

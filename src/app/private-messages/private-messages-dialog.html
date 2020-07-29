@@ -1,0 +1,263 @@
+<h2 mat-dialog-title>Messages</h2>
+<mat-dialog-content class="private-messages-content" cdkFocusInitial>
+  <mat-card>
+    <div class="upper-section">
+      <ng-container *ngIf="checkForAvatar(); else noAvatar">
+        <div class="user-dialog-avatar-container">
+          <img class="user-dialog-avatar" src="{{currentUser.avatar}}" />
+        </div>
+      </ng-container>
+      <ng-template #noAvatar>
+        <div class="avatar-container-default">
+          <mat-icon class="user-dialog-default-avatar">account_box</mat-icon>
+        </div>
+      </ng-template>
+      <span class="upper-section-username">{{currentUser.username}}</span>
+      <button
+        *ngIf="!newMessageBool"
+        mat-raised-button
+        class="chat-button"
+        (click)="changeStatus()"
+      >
+        New message
+      </button>
+      <div *ngIf="newMessageBool" class="search-user-container">
+        <mat-form-field class="priv-msg-search-input" appearance="fill">
+          <mat-label>Search for user...</mat-label>
+          <input
+            matInput
+            [formControl]="usernameFormControl"
+            [(ngModel)]="searchUserInput"
+            (keydown.enter)="newMessage()"
+            maxlength="15"
+          />
+          <mat-error
+            class="error"
+            *ngIf="usernameFormControl.hasError('required')"
+          >
+            Field cannot be <strong>empty</strong>
+          </mat-error>
+          <mat-error
+            class="error"
+            *ngIf="usernameFormControl.hasError('noResult')"
+          >
+            <strong>No result</strong>
+          </mat-error>
+        </mat-form-field>
+        <button mat-raised-button class="chat-button-2" (click)="newMessage()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </mat-card>
+  <div class="every-chat-container">
+    <mat-card class="all-chats-container">
+      <!-- CHATS -->
+      <div class="chat-word">
+        <span>Chats</span>
+        <ng-container *ngFor="let chat of userChatMessages">
+          <button (click)="enableChat(chat)" class="single-chat-enable">
+            <div class="single-chat-outter">
+              <span class="sec-user-name">{{getSecUser(chat).username}}</span>
+              <div class="single-chat-inner">
+                <ng-container
+                  *ngIf="checkSecUserAvatar(getSecUser(chat)); else noSecUserAvatar"
+                >
+                  <img
+                    class="sec-user-avatar"
+                    src="{{getSecUser(chat).avatar}}"
+                  />
+                </ng-container>
+                <ng-template #noSecUserAvatar
+                  ><mat-icon class="sec-user-default-avatar"
+                    >account_box</mat-icon
+                  >
+                </ng-template>
+                <ng-container
+                  *ngIf="checkLastMessage(chat); else notYourMessage"
+                >
+                  <span class="single-chat-you">You: </span>
+                  <span class="single-chat-last-message"
+                    >{{getLastMessage(chat)}}</span
+                  >
+                </ng-container>
+                <ng-template #notYourMessage>
+                  <span class="single-chat-last-message"
+                    >{{getLastMessage(chat)}}</span
+                  >
+                </ng-template>
+              </div>
+              <div class="single-chat-date">
+                <span style="font-size: 11px;">
+                  {{getLastMessageTime(chat)}}</span
+                >
+              </div>
+            </div>
+          </button>
+        </ng-container>
+      </div>
+    </mat-card>
+    <div class="align-textbox">
+      <mat-card class="main-chats-container">
+        <ng-container *ngIf="userChat">
+          <mat-card class="user-upper-section">
+            <ng-container
+              *ngIf="checkSecUserAvatar(this.secUserMain); else noSecUserAvatar2"
+            >
+              <img
+                class="sec-user-avatar-main"
+                src="{{this.secUserMain.avatar}}"
+              />
+            </ng-container>
+            <ng-template #noSecUserAvatar2
+              ><mat-icon class="sec-user-default-avatar-main"
+                >account_box</mat-icon
+              >
+            </ng-template>
+            <span class="sec-user-name-main"
+              >{{this.secUserMain.username}}</span
+            >
+            <div class="user-logged-align">
+              <ng-container
+                *ngIf="checkSecUserLogged(this.secUserMain); else userOffline"
+              >
+                Online
+              </ng-container>
+              <ng-template #userOffline>
+                <span style="font-size: 14px;">Last online:</span> <br />
+                <span style="font-size: 16px;">{{getLastOnlineDate()}}</span>
+              </ng-template>
+            </div>
+          </mat-card>
+          <div class="priv-messages-container">
+            <ng-container *ngFor="let message of currentMessages">
+              <ng-container
+                *ngIf="checkCurrentMessage(message); else secUserMessages"
+              >
+                <div
+                  class="current-user-messages"
+                  matTooltip="{{message.date}}"
+                  [matTooltipPosition]="tooltipPosition"
+                >
+                  {{message.message}}
+                </div>
+                <div
+                  class="priv-msg-you"
+                  *ngIf="checkIfFirstMessage(message,currentMessages)"
+                >
+                  You
+                </div>
+              </ng-container>
+              <ng-template #secUserMessages>
+                <div
+                  class="second-user-messages"
+                  matTooltip="{{message.date}}"
+                  [matTooltipPosition]="tooltipPosition"
+                >
+                  {{message.message}}
+                </div>
+                <div
+                  class="priv-msg-user-name"
+                  *ngIf="checkIfFirstMessage(message,currentMessages)"
+                >
+                  {{secUserMain.username}}
+                </div>
+              </ng-template>
+            </ng-container>
+          </div>
+        </ng-container>
+        <!-- NEW CHAT -->
+        <ng-container *ngIf="newChat">
+          <mat-card class="user-upper-section">
+            <ng-container
+              *ngIf="checkSecUserAvatar(this.newUserMain); else noSecUserAvatar2"
+            >
+              <img
+                class="sec-user-avatar-main"
+                src="{{this.newUserMain.avatar}}"
+              />
+            </ng-container>
+            <ng-template #noSecUserAvatar2
+              ><mat-icon class="sec-user-default-avatar-main"
+                >account_box</mat-icon
+              >
+            </ng-template>
+            <span class="sec-user-name-main"
+              >{{this.newUserMain.username}}</span
+            >
+            <div class="user-logged-align">
+              <ng-container
+                *ngIf="checkSecUserLogged(this.newUserMain); else userOffline"
+              >
+                Online
+              </ng-container>
+              <ng-template #userOffline>
+                <span style="font-size: 14px;">Last online:</span> <br />
+                <span style="font-size: 16px;">{{getLastOnlineDate()}}</span>
+              </ng-template>
+            </div>
+          </mat-card>
+          <div class="priv-messages-container">
+            <ng-container *ngFor="let message of currentMessages">
+              <ng-container
+                *ngIf="checkCurrentMessage(message); else secUserMessages"
+              >
+                <div
+                  class="current-user-messages"
+                  matTooltip="{{message.date}}"
+                  [matTooltipPosition]="tooltipPosition"
+                >
+                  {{message.message}}
+                </div>
+                <div
+                  class="priv-msg-you"
+                  *ngIf="checkIfFirstMessage(message,currentMessages)"
+                >
+                  You
+                </div>
+              </ng-container>
+              <ng-template #secUserMessages>
+                <div
+                  class="second-user-messages"
+                  matTooltip="{{message.date}}"
+                  [matTooltipPosition]="tooltipPosition"
+                >
+                  {{message.message}}
+                </div>
+                <div
+                  class="priv-msg-user-name"
+                  *ngIf="checkIfFirstMessage(message,currentMessages)"
+                >
+                  {{secUserMain.username}}
+                </div>
+              </ng-template>
+            </ng-container>
+          </div>
+        </ng-container>
+      </mat-card>
+      <mat-card class="priv-msg-textbox-container">
+        <mat-form-field class="priv-msg-inner-input">
+          <mat-label>Write message...</mat-label>
+          <input
+            matNativeControl
+            [(ngModel)]="inputPrivMessage"
+            (keydown.enter)="sendMessage()"
+            maxlength="200"
+          />
+        </mat-form-field>
+        <button
+          mat-raised-button
+          type="button"
+          class="priv-msg-send-button"
+          (click)="sendMessage()"
+          maxlength="200"
+        >
+          Send
+        </button>
+      </mat-card>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="private-messages-end">
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

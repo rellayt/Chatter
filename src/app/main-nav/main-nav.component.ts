@@ -23,7 +23,7 @@ export class MainNavComponent implements OnInit, OnChanges {
 
   userLogged = false;
   username: string;
-
+  date = new Date();
 
 
   constructor(private breakpointObserver: BreakpointObserver, private userData: userService, public userSourceService: userSourceService, private snackBar: MatSnackBar) { }
@@ -67,6 +67,8 @@ export class MainNavComponent implements OnInit, OnChanges {
     this.userLogged = false;
     this.currentUser = this.users.find(user => user.username === this.currentUser.username);
     this.currentUser.logged = false;
+    const lastOnline = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
+    this.currentUser.lastOnline = lastOnline;
     this.userSourceService.changeUserStatus(this.currentUser);
   }
 
@@ -74,10 +76,16 @@ export class MainNavComponent implements OnInit, OnChanges {
     this.userLogged = false;
     this.currentUser = this.users.find(user => user.username === this.currentUser.username);
     this.currentUser.logged = false;
+    const lastOnline = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
+    this.currentUser.lastOnline = lastOnline;
     this.userSourceService.changeUserStatus(this.currentUser);
     if (!this.username) {
       this.currentUser2.logged = false;
     }
     this.openSnackBar();
+  }
+  createDate(localeDate: string, localeTime: string): string {
+    const localeTimeShort = localeTime.substring(0, 5);
+    return localeDate + ' ' + localeTimeShort;
   }
 }

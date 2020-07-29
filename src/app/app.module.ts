@@ -18,7 +18,9 @@ import { PublicChannelOneComponent } from './public-channel-one/public-channel-o
 import { fileService } from './_services/file.service';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { publicMessageService } from './_services/public-messages-one';
-import { SidenavComponent } from './sidenav/sidenav.component';
+import { SidenavComponent, userDialog } from './sidenav/sidenav.component';
+import { PrivateMessagesComponent, privateMessagesDialog } from './private-messages/private-messages.component';
+import { privateMessageService } from './_services/private-messages.service';
 
 @NgModule({
   declarations: [
@@ -33,9 +35,12 @@ import { SidenavComponent } from './sidenav/sidenav.component';
     ExpansionPanelComponent,
     PublicChannelOneComponent,
     optionsDialog,
-    SidenavComponent
+    SidenavComponent,
+    userDialog,
+    PrivateMessagesComponent,
+    privateMessagesDialog
   ],
-  entryComponents: [LoginComponent, loginDialog, RegisterComponent, registerDialog, optionsDialog],
+  entryComponents: [LoginComponent, loginDialog, RegisterComponent, registerDialog, optionsDialog, userDialog, privateMessagesDialog],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -44,7 +49,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
     AngularFirestoreModule,
     AngularFireDatabaseModule,
   ],
-  providers: [userService, userSourceService, fileService, publicMessageService],
+  providers: [userService, userSourceService, fileService, publicMessageService, privateMessageService],
   bootstrap: [MainNavComponent]
 })
 export class AppModule { }

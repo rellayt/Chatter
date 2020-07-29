@@ -11,7 +11,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export const userMatchValidator = (username: string, password: string, users: userData[]): ValidatorFn => {
   return (formGroup: FormGroup): ValidationErrors | null => {
-    if (checkUsername(username, users) && checkPassword(password, users)) {
+    if (checkUsername(username, users) && checkPassword(username, password, users)) {
       return { userMismatch: false };
     }
     else {
@@ -26,8 +26,9 @@ export const checkUsername = (username: string, users: userData[]): any => {
     return false;
   }
 }
-export const checkPassword = (password: string, users: userData[]): boolean => {
-  if (users.find(user => user.password === password)) {
+export const checkPassword = (username: string, password: string, users: userData[]): boolean => {
+  const singleUser = users.find(user => user.username === username);
+  if (singleUser.password === password) {
     return true;
   } else {
     return false;

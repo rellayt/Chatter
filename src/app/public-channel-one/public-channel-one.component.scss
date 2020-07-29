@@ -236,9 +236,11 @@ $primaryColor: rgb(39, 73, 223);
 
 .default-avatar {
   font-size: 49px;
+  cursor: context-menu;
 }
 .default-avatar-2 {
   font-size: 49px;
+  cursor: context-menu;
 }
 .public-channel-outter-textbox {
   width: 60%;
@@ -482,7 +484,7 @@ a[download] {
 .online-circle {
   height: 8px;
   width: 8px;
-  background-color: #09e051d0;
+  background-color: #09e051;
   border-radius: 50%;
   display: flex;
   position: relative;
@@ -490,6 +492,7 @@ a[download] {
   left: 40px;
   border: 1px solid black;
   z-index: 1;
+  box-shadow: inset 0px 0px 2px black;
 }
 
 .offline-circle {

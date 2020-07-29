@@ -19,6 +19,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const MaterialComponents = [CommonModule,
   BrowserAnimationsModule,
@@ -39,7 +41,8 @@ const MaterialComponents = [CommonModule,
   MatSlideToggleModule,
   MatProgressSpinnerModule,
   MatBadgeModule,
-
+  MatCardModule,
+  MatTooltipModule
 ];
 
 @NgModule({

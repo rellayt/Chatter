@@ -25,7 +25,7 @@ $primaryColor: rgb(39, 73, 223);
   margin-left: 124px;
 }
 .images-container {
-  height: 690px;
+  height: 630px;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
@@ -50,6 +50,7 @@ $primaryColor: rgb(39, 73, 223);
 }
 .files-container {
   height: auto;
+  max-height: 580px;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
@@ -102,24 +103,90 @@ div::-webkit-scrollbar-thumb {
   width: 290px;
   font-size: 17px;
 }
-::ng-deep .mat-focused .mat-form-field-label {
-  /*change color of label*/
-  color: black !important;
-}
+// ::ng-deep .mat-focused .mat-form-field-label {
+//   /*change color of label*/
+//   color: black !important;
+// }
 
-::ng-deep.mat-form-field-underline {
-  /*change color of underline*/
-  background-color: black !important;
-}
+// ::ng-deep.mat-form-field-underline {
+//   /*change color of underline*/
+//   background-color: black !important;
+// }
 
-::ng-deep.mat-form-field-ripple {
-  /*change color of underline when focused*/
-  background-color: black !important;
-}
+// ::ng-deep.mat-form-field-ripple {
+//   /*change color of underline when focused*/
+//   background-color: black !important;
+// }
 .user-list-container {
   height: 610px;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  align-items: stretch;
+}
+
+.sidenav-no-result {
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.user-dialog-avatar {
+  height: 120px;
+  width: 120px;
+  border: 2px black solid;
+  border-radius: 10px;
+}
+.user-dialog-default-avatar {
+  font-size: 145px;
+  width: 145px;
+  position: relative;
+  top: 16px;
+  cursor: context-menu;
+  right: -7px;
+}
+.user-dialog-avatar-container {
+  text-align: center;
+}
+.user-dialog-name-online {
+  text-align: center;
+  font-size: 16px;
+  margin-right: -7px;
+}
+.user-dialog-name-offline {
+  text-align: center;
+  font-size: 16px;
+  margin-right: -7px;
+  margin-top: 7px;
+}
+.user-dialog-default-avatar {
+  text-align: center;
+}
+.avatar-container-default {
+  text-align: center;
+}
+.online-circle {
+  height: 22px;
+  width: 22px;
+  background-color: #09e051;
+  border-radius: 50%;
+  display: inline-flex;
+  position: relative;
+  bottom: 25px;
+  margin-bottom: -9px;
+  left: 60px;
+  border: 2px solid black;
+  z-index: 1;
+  box-shadow: inset 0px 0px 4px;
+}
+.online-circle-container {
+  text-align: center;
   align-items: center;
+  margin-bottom: -15px;
+}
+
+.chat-button {
+  position: relative;
+  bottom: 40px;
+  margin-bottom: -40px;
+  float: right;
 }

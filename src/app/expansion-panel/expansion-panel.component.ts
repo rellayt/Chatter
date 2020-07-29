@@ -192,6 +192,7 @@ export class optionsDialog implements OnInit {
     }
   }
   changePassword() {
+    []
     const compareOldPasswords = (this.oldPassword === this.currentUser.password) ? true : false;
     const compareNewPasswords = (this.newPassword === this.confirmNewPassword) ? true : false;
     const minPasswordLen = (this.newPassword.length > 6) ? true : false;
