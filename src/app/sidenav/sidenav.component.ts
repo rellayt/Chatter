@@ -3,10 +3,12 @@ import { userSourceService } from '../_services/users.service';
 import { fileService } from '../_services/file.service';
 import { publicMessageService } from '../_services/public-messages-one';
 import { userData } from '../userData';
-import { messageData } from '../messageData';
+import { messageData, privMessageData } from '../messageData';
 import { ThemePalette } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-
+import { userService } from '../_services/user.service';
+import { privateMessageService } from '../_services/private-messages.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sidenav',
@@ -31,6 +33,7 @@ export class SidenavComponent implements OnInit {
   checked = false;
   color: ThemePalette = 'primary';
   searchValue = '';
+  root = document.documentElement;
   constructor(public dialog: MatDialog, public userService: userSourceService, public publicMessages: publicMessageService) { }
 
   ngOnInit(): void {
@@ -108,17 +111,29 @@ export class userDialog implements OnInit {
   users: userData[];
   checkedUsername = '';
   checkedUser: userData = { id: null, username: '', password: '', logged: false };
-
-  constructor(public dialog: MatDialogRef<userDialog>, @Inject(MAT_DIALOG_DATA) public username: string, public userService: userSourceService) { }
+  currentUser: userData = { id: null, username: '', password: '', logged: false };
+  message = false;
+  inputPrivMessage = '';
+  privateMessages: privMessageData[];
+  privateMessage: privMessageData = { messageId: 0, fromUserId: 0, toUserId: 0, date: '', message: '' };
+  date = new Date();
+  showMessageButton = true;
+  // tslint:disable-next-line: max-line-length
+  constructor(private snackBar: MatSnackBar, public privMessageService: privateMessageService, public getUserService: userService, public dialog: MatDialogRef<userDialog>, @Inject(MAT_DIALOG_DATA) public username: string, public userService: userSourceService) { }
 
   ngOnInit() {
     this.checkedUsername = JSON.stringify(this.username).substring(13, (JSON.stringify(this.username).length - 2));
+    this.getUserService.currentUser.subscribe(user => {
+      this.currentUser = user;
+    });
     this.userService.getUsers().subscribe(users => {
       this.users = users;
       this.checkedUser = this.users.find(x => x.username === this.checkedUsername);
-      console.log(this.checkedUser);
+      this.currentUser = this.users.find(x => x.username === this.currentUser.username);
     });
-
+    this.privMessageService.getPrivateMessages().subscribe(privateMessages => {
+      this.privateMessages = privateMessages;
+    });
   }
   checkForAvatar(): boolean {
     if (this.checkedUser) {
@@ -130,6 +145,18 @@ export class userDialog implements OnInit {
     } else {
       return false;
     }
+  }
+  checkIfCurrentUserOnline(): boolean {
+    if (this.currentUser) {
+      if (this.currentUser.username === this.checkedUser.username) {
+        return false;
+      } else if (this.currentUser.logged) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+
   }
   checkIfOnline(): boolean {
     if (this.checkedUser) {
@@ -159,8 +186,36 @@ export class userDialog implements OnInit {
   onNoClick(): void {
     this.dialog.close();
   }
-  test(): void {
-    console.log('working');
+  enableMessage(): void {
+    this.message = true;
+    this.showMessageButton = false;
   }
-
+  createDate(localeDate: string, localeTime: string): string {
+    const localeTimeShort = localeTime.substring(0, 5);
+    return localeDate + ' ' + localeTimeShort;
+  }
+  sendMessage() {
+    if (this.inputPrivMessage !== '') {
+      const properDate = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
+      const maxMessageID = this.privateMessages.reduce((a, b) => a.messageId > b.messageId ? a : b).messageId;
+      this.privateMessage.fromUserId = this.currentUser.id;
+      this.privateMessage.message = this.inputPrivMessage;
+      this.privateMessage.toUserId = this.checkedUser.id;
+      this.privateMessage.messageId = maxMessageID + 1;
+      this.privateMessage.date = properDate;
+      this.privMessageService.addPrivateMessage(this.privateMessage);
+      this.openSnackBar();
+      this.message = false;
+      this.showMessageButton = true;
+      this.inputPrivMessage = '';
+    }
+  }
+  openSnackBar() {
+    this.snackBar.open('Message sent successfully', 'Cancel', {
+      duration: 700,
+      horizontalPosition: 'end',
+      verticalPosition: 'bottom',
+      panelClass: ['blue-snackbar']
+    });
+  }
 }

@@ -21,6 +21,10 @@ import { publicMessageService } from './_services/public-messages-one';
 import { SidenavComponent, userDialog } from './sidenav/sidenav.component';
 import { PrivateMessagesComponent, privateMessagesDialog } from './private-messages/private-messages.component';
 import { privateMessageService } from './_services/private-messages.service';
+import { userChatMessagesService } from './_services/userChat.service';
+import { PublicChannelTwoComponent } from './public-channel-two/public-channel-two.component';
+import { PublicChannelThreeComponent } from './public-channel-three/public-channel-three.component';
+import { privateMessagesDialogFromMain, PrivateMessagesFromMainComponent } from './private-messages-from-main/private-messages-from-main.component';
 
 @NgModule({
   declarations: [
@@ -38,9 +42,13 @@ import { privateMessageService } from './_services/private-messages.service';
     SidenavComponent,
     userDialog,
     PrivateMessagesComponent,
-    privateMessagesDialog
+    PrivateMessagesFromMainComponent,
+    privateMessagesDialog,
+    privateMessagesDialogFromMain,
+    PublicChannelTwoComponent,
+    PublicChannelThreeComponent
   ],
-  entryComponents: [LoginComponent, loginDialog, RegisterComponent, registerDialog, optionsDialog, userDialog, privateMessagesDialog],
+  entryComponents: [LoginComponent, loginDialog, RegisterComponent, registerDialog, optionsDialog, userDialog, privateMessagesDialog, privateMessagesDialogFromMain],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -49,7 +57,7 @@ import { privateMessageService } from './_services/private-messages.service';
     AngularFirestoreModule,
     AngularFireDatabaseModule,
   ],
-  providers: [userService, userSourceService, fileService, publicMessageService, privateMessageService],
+  providers: [userChatMessagesService, userService, userSourceService, fileService, publicMessageService, privateMessageService],
   bootstrap: [MainNavComponent]
 })
 export class AppModule { }

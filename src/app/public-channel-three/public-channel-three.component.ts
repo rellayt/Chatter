@@ -4,16 +4,15 @@ import { userSourceService } from '../_services/users.service';
 import { userData } from '../userData';
 import { fileService } from '../_services/file.service';
 import { publicMessageService } from '../_services/public-messages-one';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
-import { AfterViewChecked, ElementRef, ViewChild, } from '@angular/core';
+import { ElementRef, ViewChild, } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-public-channel-one',
-  templateUrl: './public-channel-one.component.html',
-  styleUrls: ['./public-channel-one.component.scss']
+  selector: 'app-public-channel-three',
+  templateUrl: './public-channel-three.component.html',
+  styleUrls: ['./public-channel-three.component.scss']
 })
-export class PublicChannelOneComponent implements OnInit {
+export class PublicChannelThreeComponent implements OnInit {
   @ViewChild('scrollMe')
   private myScrollContainer: ElementRef;
 
@@ -24,8 +23,7 @@ export class PublicChannelOneComponent implements OnInit {
   userLogged: boolean;
 
   date = new Date();
-  channelOneMessages: messageData[];
-  channelMessages: messageData[];
+  channelThreeMessages: messageData[];
   public tempMessage: messageData = new messageData(0, 0, 0, '', '');
   public sendTempMessage: messageData = new messageData(0, 0, 0, '', '');
   inputMessage: string;
@@ -42,7 +40,7 @@ export class PublicChannelOneComponent implements OnInit {
   newImage = false;
   newFile = false;
   messageIdStorageTemp = 0;
-  channelId = 1;
+  channelId = 3;
   fileTemp: File;
   users: userData[];
   public currentUser: userData = { id: null, username: '', password: '', logged: false };
@@ -59,12 +57,9 @@ export class PublicChannelOneComponent implements OnInit {
 
     });
     this.publicMessages.getPublicMessages().subscribe(messages => {
-      this.channelMessages = messages;
-      this.channelOneMessages = messages.filter(message => {
+      this.channelThreeMessages = messages.filter(message => {
         return message.channelId === this.channelId;
       });
-      this.checkForImages();
-      this.checkForFiles();
     });
     this.storage.currentImage.subscribe(image => {
       while (this.newImage) {
@@ -95,26 +90,7 @@ export class PublicChannelOneComponent implements OnInit {
       }
     });
   }
-  checkForImages() {
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < this.channelOneMessages.length; i++) {
-      if (this.channelOneMessages[i].image) {
-        if (this.channelOneMessages[i].image === '') {
-          this.storage.getImage(this.channelOneMessages[i].messageId, this.channelId);
-        }
-      }
-    }
-  }
-  checkForFiles() {
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < this.channelOneMessages.length; i++) {
-      if (this.channelOneMessages[i].fileUrl) {
-        if (this.channelOneMessages[i].fileUrl === '') {
-          this.storage.getFile(this.fileTemp, this.channelOneMessages[i].messageId, this.channelId);
-        }
-      }
-    }
-  }
+
   ngAfterViewChecked() {
     this.scrollToBottom();
   }
@@ -122,11 +98,11 @@ export class PublicChannelOneComponent implements OnInit {
     this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
   }
   sendMessage() {
-    let maxMessageID = this.channelMessages.reduce((a, b) => a.messageId > b.messageId ? a : b).messageId;
+    let maxMessageID = this.channelThreeMessages.reduce((a, b) => a.messageId > b.messageId ? a : b).messageId;
     if (this.currentUser) {
       this.messageIdTemp = maxMessageID + 1;
-      if (this.inputMessage !== '' && this.currentUser.logged && this.uploadedPhoto && !this.uploadedFile) {
-        this.sendTempMessage.channelId = 1;
+      if (this.currentUser.logged && this.uploadedPhoto && !this.uploadedFile) {
+        this.sendTempMessage.channelId = 3;
         this.sendTempMessage.date = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
         this.sendTempMessage.message = this.inputMessage;
         this.sendTempMessage.messageId = maxMessageID + 1;
@@ -137,8 +113,8 @@ export class PublicChannelOneComponent implements OnInit {
         this.sendTempMessage.image = undefined;
         this.inputMessage = '';
         this.uploadedPhoto = false;
-      } else if (this.inputMessage !== '' && this.currentUser.logged && !this.uploadedPhoto && this.uploadedFile) {
-        this.sendTempMessage.channelId = 1;
+      } else if (this.currentUser.logged && !this.uploadedPhoto && this.uploadedFile) {
+        this.sendTempMessage.channelId = 3;
         this.sendTempMessage.date = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
         this.sendTempMessage.message = this.inputMessage;
         this.sendTempMessage.messageId = maxMessageID + 1;
@@ -156,7 +132,7 @@ export class PublicChannelOneComponent implements OnInit {
         this.sendTempMessage.fileUrl = undefined;
         this.sendTempMessage.fileName = undefined;
         this.sendTempMessage.image = undefined;
-        this.sendTempMessage.channelId = 1;
+        this.sendTempMessage.channelId = 3;
         this.sendTempMessage.date = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
         this.sendTempMessage.message = this.inputMessage;
         this.sendTempMessage.messageId = maxMessageID + 1;
@@ -197,20 +173,20 @@ export class PublicChannelOneComponent implements OnInit {
   }
   getShortDate(messageId: number): string {
     if (this.users) {
-      this.tempMessage = this.channelOneMessages.find(x => x.messageId === messageId);
+      this.tempMessage = this.channelThreeMessages.find(x => x.messageId === messageId);
       return this.tempMessage.date.substring(11, 16);
     }
   }
   getLongDate(messageId: number): string {
     if (this.users) {
-      this.tempMessage = this.channelOneMessages.find(x => x.messageId === messageId);
+      this.tempMessage = this.channelThreeMessages.find(x => x.messageId === messageId);
       return this.tempMessage.date.substring(0, 2) + '/' + this.tempMessage.date.substring(3, 5) + ' ' + this.tempMessage.date.substring(11, 16);
     }
   }
 
   checkForDate(messageId: number): boolean {
     if (this.users) {
-      this.tempMessage = this.channelOneMessages.find(x => x.messageId === messageId);
+      this.tempMessage = this.channelThreeMessages.find(x => x.messageId === messageId);
       const tempDate = new Date();
       const tempMessageDate = tempDate.toLocaleDateString();
       if (this.tempMessage.date.substring(0, 10) === tempMessageDate) {
@@ -247,7 +223,7 @@ export class PublicChannelOneComponent implements OnInit {
     }
   }
   uploadImage(event: any) {
-    const messageId = (this.channelOneMessages.reduce((a, b) => a.messageId > b.messageId ? a : b).messageId) + 1;
+    const messageId = (this.channelThreeMessages.reduce((a, b) => a.messageId > b.messageId ? a : b).messageId) + 1;
     const file: File = event.target.files[0];
     if (!this.uploadedFile) {
       if (file.type === 'image/jpeg' || file.type === 'image/png') {
@@ -273,7 +249,7 @@ export class PublicChannelOneComponent implements OnInit {
   }
 
   uploadFile(event: any) {
-    const messageId = (this.channelOneMessages.reduce((a, b) => a.messageId > b.messageId ? a : b).messageId) + 1;
+    const messageId = (this.channelThreeMessages.reduce((a, b) => a.messageId > b.messageId ? a : b).messageId) + 1;
     const file: File = event.target.files[0];
     if (!this.uploadedPhoto) {
       if (file.type !== 'image') {

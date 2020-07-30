@@ -37,6 +37,27 @@
   Registered: {{modifyRegisterDate()}} <br />
   Messages sent: {{checkedUser.messagesCount}} <br />
 </div>
-<button mat-raised-button class="chat-button" mat-icon-button (click)="test()">
-  <mat-icon>chat</mat-icon>
-</button>
+<ng-container *ngIf="checkIfCurrentUserOnline() && showMessageButton">
+  <button
+    mat-raised-button
+    class="chat-button"
+    mat-icon-button
+    (click)="enableMessage()"
+  >
+    <mat-icon>chat</mat-icon>
+  </button>
+</ng-container>
+<div *ngIf="message" class="sidenav-textbox">
+  <mat-form-field class="sidenav-form-field">
+    <mat-label>Type message</mat-label>
+    <input
+      matInput
+      [(ngModel)]="inputPrivMessage"
+      (keydown.enter)="sendMessage()"
+      maxlength="150"
+    />
+  </mat-form-field>
+  <button mat-raised-button class="sidenav-btn-send" (click)="sendMessage()">
+    Send
+  </button>
+</div>

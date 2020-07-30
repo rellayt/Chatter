@@ -141,7 +141,6 @@ export class loginDialog implements OnInit, OnDestroy {
         this.userLogged = true;
         this.users[it].logged = true;
         this.userDataTemp.logged = true;
-        console.log('Welcome, ' + this.users[it].username);
         this.userService.changeUserStatus(this.users[it]);
         this.openSnackBar();
       }

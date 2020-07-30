@@ -1,6 +1,60 @@
-<app-users></app-users>
+<!-- <app-users></app-users> -->
+<div class="channel-buttons">
+  <div class="title-section">
+    <span class="title-span">Channels</span>
+    <hr />
+  </div>
+
+  <div class="button-container">
+    <button type="button" class="button-align" mat-icon-button>
+      <mat-icon class="button-icon" (click)="changeChannel(1)"
+        >looks_one</mat-icon
+      >
+      <br />
+    </button>
+  </div>
+  <div class="button-container">
+    <button type="button" class="button-align" mat-icon-button>
+      <mat-icon class="button-icon" (click)="changeChannel(2)"
+        >looks_two</mat-icon
+      >
+      <br />
+    </button>
+  </div>
+  <div class="button-container">
+    <button type="button" class="button-align" mat-icon-button>
+      <mat-icon class="button-icon" (click)="changeChannel(3)"
+        >looks_3</mat-icon
+      >
+      <br />
+    </button>
+  </div>
+  <span class="demo">DEMO</span>
+  <div class="line">
+    <hr />
+  </div>
+  <ng-container *ngIf="checkIfLogged()">
+    <app-private-messages-from-main
+      [username]="username"
+    ></app-private-messages-from-main>
+  </ng-container>
+</div>
 <app-online-users></app-online-users>
-<app-public-channel-one
-  [username]="username"
-  [userLogged]="userLogged"
-></app-public-channel-one>
+<ng-container *ngIf="pickedChannel === 1">
+  <app-public-channel-one
+    [username]="username"
+    [userLogged]="userLogged"
+  ></app-public-channel-one>
+</ng-container>
+<ng-container *ngIf="pickedChannel === 2">
+  <app-public-channel-two
+    [username]="username"
+    [userLogged]="userLogged"
+  ></app-public-channel-two>
+</ng-container>
+<ng-container *ngIf="pickedChannel === 3">
+  <app-public-channel-three
+    [username]="username"
+    [userLogged]="userLogged"
+  ></app-public-channel-three>
+</ng-container>

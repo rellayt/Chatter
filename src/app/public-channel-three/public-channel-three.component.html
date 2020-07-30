@@ -1,8 +1,8 @@
 <div class="public-channel-container">
-  <h1>Public Channel #1</h1>
+  <h1>Public Channel #3 DEMO</h1>
   <hr />
   <div #scrollMe class="messages">
-    <ng-container *ngFor="let message of channelOneMessages">
+    <ng-container *ngFor="let message of channelThreeMessages">
       <ng-container *ngIf="checkUserMessage(message.userId); else currentUser">
         <span class="username-message">{{ getUsername(message.userId) }}</span>
         <div class="outter-messages">
@@ -147,6 +147,7 @@
 <ng-container *ngIf="!uploadedPhoto && !uploadedFile">
   <div class="public-channel-outter-textbox">
     <textarea
+      disabled
       #message
       class="public-channel-textbox"
       maxlength="300"
@@ -155,6 +156,7 @@
       [(ngModel)]="inputMessage"
     ></textarea>
     <button
+      disabled
       mat-icon-button
       type="button"
       class="public-channel-send-hover"
@@ -163,12 +165,14 @@
       <mat-icon class="public-channel-send">send</mat-icon>
     </button>
     <button
+      disabled
       class="public-channel-insphoto-hover"
       mat-icon-button
       (click)="fileInput.click()"
     >
       <mat-icon class="public-channel-insphoto">insert_photo</mat-icon>
       <input
+        disabled
         #fileInput
         type="file"
         (change)="uploadImage($event)"
@@ -177,12 +181,14 @@
     </button>
 
     <button
+      disabled
       mat-icon-button
       class="public-channel-attach-hover"
       (click)="fileInput2.click()"
     >
       <mat-icon class="public-channel-attach">attach_file</mat-icon>
       <input
+        disabled
         #fileInput2
         type="file"
         (change)="uploadFile($event)"
