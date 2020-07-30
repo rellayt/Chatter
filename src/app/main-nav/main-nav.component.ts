@@ -25,7 +25,6 @@ export class MainNavComponent implements OnInit, OnChanges {
   username: string;
   date = new Date();
 
-
   constructor(private breakpointObserver: BreakpointObserver, private userData: userService, public userSourceService: userSourceService, private snackBar: MatSnackBar) { }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe('(max-width: 1920px)')

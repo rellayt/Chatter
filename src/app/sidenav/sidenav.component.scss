@@ -1,6 +1,5 @@
 $primaryColor: rgb(39, 73, 223);
-.sidenav-container {
-}
+
 .mat-expansion-main {
   margin-left: auto;
   margin-right: auto;
@@ -189,4 +188,31 @@ div::-webkit-scrollbar-thumb {
   bottom: 40px;
   margin-bottom: -40px;
   float: right;
+}
+.sidenav-contact {
+  margin: 20px;
+  text-align: center;
+}
+a {
+  position: relative;
+  top: 2px;
+  font-size: 17px;
+  color: black;
+  text-decoration: none;
+  opacity: 1;
+  transition: 300ms all ease;
+  &:hover {
+    opacity: 0.75;
+    transition: 300ms all ease;
+  }
+}
+.sidenav-textbox {
+  width: 100%;
+  margin-top: 10px;
+}
+.sidenav-btn-send {
+  margin-left: 15px;
+}
+.sidenav-form-field {
+  width: 290px;
 }

@@ -3,18 +3,18 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { userSourceService } from '../_services/users.service';
 import { userData } from '../userData';
 import { privMessageData } from '../messageData';
-import { single, find } from 'rxjs/operators';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { privateMessageService } from '../_services/private-messages.service';
 import { FormControl, Validators } from '@angular/forms';
 import { userChatMessagesService } from '../_services/userChat.service';
+import { userService } from '../_services/user.service';
 
 @Component({
-  selector: 'app-private-messages',
-  templateUrl: './private-messages.component.html',
-  styleUrls: ['./private-messages.component.scss']
+  selector: 'app-private-messages-from-main',
+  templateUrl: './private-messages-from-main.component.html',
+  styleUrls: ['./private-messages-from-main.component.scss']
 })
-export class PrivateMessagesComponent implements OnInit {
+export class PrivateMessagesFromMainComponent implements OnInit {
   @Input()
   username = '';
 
@@ -24,55 +24,24 @@ export class PrivateMessagesComponent implements OnInit {
   messagesCounter = 0;
   userIdentifier: string[] = new Array();
 
+  // tslint:disable-next-line: max-line-length
   constructor(public privMessageService: privateMessageService, public dialog: MatDialog, public userService: userSourceService) { }
 
   ngOnInit(): void {
+
     this.userService.getUsers().subscribe(users => {
       this.users = users;
       this.currentUser = this.users.find(x => x.username === this.username);
     });
     this.privMessageService.getPrivateMessages().subscribe(privateMessages => {
       this.privateMessages = privateMessages;
-      this.createUserIdentifier();
-      this.messagesCounter = this.userIdentifier.length;
     });
 
   }
 
-  createUserIdentifier() {
-    let privateMessageDataTemp;
-    if (this.privateMessages) {
-      privateMessageDataTemp = this.privateMessages.reverse();
-    }
-    let singleIdentifier;
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < privateMessageDataTemp.length; i++) {
-      if (privateMessageDataTemp[i].fromUserId === this.currentUser.id || privateMessageDataTemp[i].toUserId === this.currentUser.id) {
-        singleIdentifier = '';
-        if (privateMessageDataTemp[i].fromUserId === this.currentUser.id) {
-          singleIdentifier += this.currentUser.id.toString();
-          singleIdentifier += '-';
-          singleIdentifier += privateMessageDataTemp[i].toUserId.toString();
-          const userIdentifierFinder = this.userIdentifier.find(x => x === singleIdentifier);
 
-          if (userIdentifierFinder === undefined) {
-            this.userIdentifier.push(singleIdentifier);
-          }
-        }
-        if (privateMessageDataTemp[i].toUserId === this.currentUser.id) {
-          singleIdentifier += this.currentUser.id.toString();
-          singleIdentifier += '-';
-          singleIdentifier += privateMessageDataTemp[i].fromUserId.toString();
-          const userIdentifierFinder = this.userIdentifier.find(x => x === singleIdentifier);
-          if (userIdentifierFinder === undefined) {
-            this.userIdentifier.push(singleIdentifier);
-          }
-        }
-      }
-    }
-  }
   openMessagesDialog(username: string) {
-    this.dialog.open(privateMessagesDialog, {
+    this.dialog.open(privateMessagesDialogFromMain, {
       width: '1000px',
       height: '750px',
       data: {
@@ -83,11 +52,11 @@ export class PrivateMessagesComponent implements OnInit {
 }
 
 @Component({
-  selector: 'privateMessagesDialog',
-  templateUrl: 'private-messages-dialog.html',
-  styleUrls: ['./private-messages.component.scss', './user-chat.scss']
+  selector: 'privateMessagesDialogFromMain',
+  templateUrl: 'private-messages-dialog-from-main.html',
+  styleUrls: ['./private-messages-from-main.component.scss', './user-chat-from-main.scss']
 })
-export class privateMessagesDialog implements OnInit {
+export class privateMessagesDialogFromMain implements OnInit {
   tooltipPosition: TooltipPosition = 'above';
   users: userData[];
   currentUsername = '';
@@ -113,7 +82,7 @@ export class privateMessagesDialog implements OnInit {
   usernameFormControl = new FormControl('', [Validators.required]);
 
   // tslint:disable-next-line: max-line-length
-  constructor(public userChatService: userChatMessagesService, public dialog: MatDialogRef<privateMessagesDialog>, @Inject(MAT_DIALOG_DATA) public username: string, public userService: userSourceService, public privMessageService: privateMessageService) {
+  constructor(public userChatService: userChatMessagesService, public dialog: MatDialogRef<privateMessagesDialogFromMain>, @Inject(MAT_DIALOG_DATA) public username: string, public userService: userSourceService, public privMessageService: privateMessageService) {
 
   }
 

@@ -1,9 +1,15 @@
 <div class="online-users-container">
-  Online users
+  <span class="online-users-title">Online users</span>
   <hr />
-  <ul *ngIf="onlineUsers.length; else noOnlineusers">
-    <li *ngFor="let user of onlineUsers">{{ user.username }}</li>
-  </ul>
+  <ng-container *ngIf="onlineUsers.length; else noOnlineusers">
+    <div class="online-users-outter" *ngFor="let user of onlineUsers">
+      <div class="online-users-container-2">
+        <span class="online-user">
+          {{ user.username }} <span class="online-circle"></span>
+        </span>
+      </div>
+    </div>
+  </ng-container>
   <ng-template #noOnlineusers>
     <span class="no-online-users">No online users</span>
   </ng-template>

@@ -1,4 +1,4 @@
-<mat-accordion class="sidenav-container">
+<mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title class="mat-expansion-main">
@@ -132,7 +132,7 @@
       </div>
     </ng-container>
   </mat-expansion-panel>
-  <!-- THEME -->
+  <!-- THEME
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title class="mat-expansion-main">
@@ -140,10 +140,10 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <mat-slide-toggle (click)="slideToggle()" [color]="color">
-      <ng-container *ngIf="checked; else nightTheme">Night theme</ng-container>
-      <ng-template #nightTheme>Day theme</ng-template>
+      <ng-container *ngIf="checked; else dayTheme">Night theme</ng-container>
+      <ng-template #dayTheme>Day theme</ng-template>
     </mat-slide-toggle>
-  </mat-expansion-panel>
+  </mat-expansion-panel> -->
   <!-- AUTHOR -->
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -151,6 +151,12 @@
         Author
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="sidenav-author">Zbigniew Jaryst</div>
+    <div class="sidenav-author">
+      Zbigniew Jaryst <br />
+      <div class="sidenav-contact">
+        <span style="font-size: 16px;">Contact</span><br />
+        <a href="mailto:zbigniew.jaryst@gmail.com">zbigniew.jaryst@gmail.com</a>
+      </div>
+    </div>
   </mat-expansion-panel>
 </mat-accordion>

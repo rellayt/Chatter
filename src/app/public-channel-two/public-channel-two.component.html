@@ -1,8 +1,8 @@
 <div class="public-channel-container">
-  <h1>Public Channel #1</h1>
+  <h1>Public Channel #2</h1>
   <hr />
   <div #scrollMe class="messages">
-    <ng-container *ngFor="let message of channelOneMessages">
+    <ng-container *ngFor="let message of channelTwoMessages">
       <ng-container *ngIf="checkUserMessage(message.userId); else currentUser">
         <span class="username-message">{{ getUsername(message.userId) }}</span>
         <div class="outter-messages">

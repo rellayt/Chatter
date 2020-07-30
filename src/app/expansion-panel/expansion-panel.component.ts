@@ -9,6 +9,7 @@ import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { userData } from '../userData';
 
+
 export interface DialogData {
   username: string;
   logged: boolean;
@@ -29,6 +30,8 @@ export class ExpansionPanelComponent implements OnInit {
   users: userData[];
   currentUser: userData = { id: null, username: '', password: '', logged: false };
 
+
+  // tslint:disable-next-line: max-line-length
   constructor(private snackBar: MatSnackBar, public dialog: MatDialog, public userService: userSourceService) { }
 
   ngOnInit(): void {
@@ -36,7 +39,10 @@ export class ExpansionPanelComponent implements OnInit {
       this.users = users;
       this.currentUser = this.users.find(x => x.username === this.username);
     });
+
   }
+
+
 
   openOptions(): void {
     const dialogRef = this.dialog.open(optionsDialog, {

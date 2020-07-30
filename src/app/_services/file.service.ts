@@ -31,14 +31,14 @@ export class fileService {
     const storageRef: firebase.storage.Reference = firebase.storage().ref(`/avatars/${user.id}`);
     storageRef.put(file);
   }
-  putImage(file: File, messageId: number) {
-    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${messageId}`);
+  putImage(file: File, messageId: number, channelId: number) {
+    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${channelId}/${messageId}`);
     storageRef.put(file);
   }
-  putFile(file: File, messageId: number) {
+  putFile(file: File, messageId: number, channelId: number) {
     const fileName = file.name;
 
-    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/files/${messageId}/${fileName}`);
+    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/files/${channelId}/${messageId}/${fileName}`);
     storageRef.put(file);
   }
   getAvatar(user: userData) {
@@ -55,9 +55,9 @@ export class fileService {
       });
     }
   }
-  getImage(messageId: number) {
+  getImage(messageId: number, channelId: number) {
     let imageURL = '';
-    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${messageId}`);
+    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/images/${channelId}/${messageId}`);
 
     if (storageRef.getDownloadURL()) {
       const downloadURL = storageRef.getDownloadURL();
@@ -65,17 +65,16 @@ export class fileService {
       downloadURL.then(url => {
         if (url) {
           imageURL = url;
-          console.log('lol', url);
           this.changeImageProperties(imageURL);
         }
       });
     }
   }
-  getFile(file: File, messageId: number) {
+  getFile(file: File, messageId: number, channelId: number) {
     const fileName = file.name;
 
     let fileURL = '';
-    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/files/${messageId}/${fileName}`);
+    const storageRef: firebase.storage.Reference = firebase.storage().ref(`/files/${channelId}/${messageId}/${fileName}`);
 
     if (storageRef.getDownloadURL()) {
       const downloadURL = storageRef.getDownloadURL();
