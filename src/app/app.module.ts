@@ -7,7 +7,7 @@ import { LoginComponent, loginDialog } from './login/login.component';
 import { MaterialModule } from './material/material.module';
 import { RegisterComponent, registerDialog } from './register/register.component';
 import { userService } from './_services/user.service';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.prod';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { UsersComponent } from './users/users.component';
