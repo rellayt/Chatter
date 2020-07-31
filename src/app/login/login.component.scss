@@ -3,11 +3,6 @@ $primaryColor: rgb(39, 73, 223);
   color: black;
   //left: 1540px;
   margin-right: 5px;
-
-  &:hover {
-    opacity: 50%;
-    animation: fading 1s;
-  }
 }
 .btn-login-submit {
   float: right;
