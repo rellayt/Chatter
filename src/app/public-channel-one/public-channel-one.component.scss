@@ -453,7 +453,6 @@ a[download] {
   font-size: 15px;
   position: relative;
   top: 10px;
-  opacity: 100%;
   text-decoration: underline;
   transition: ease all 300ms;
   display: block;
@@ -461,7 +460,6 @@ a[download] {
   &:hover {
     transition: ease all 300ms;
     text-decoration: none;
-    opacity: 80%;
   }
 }
 .inner-file-message {
