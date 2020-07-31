@@ -124,7 +124,7 @@ export class PublicChannelTwoComponent implements OnInit {
     let maxMessageID = this.channelMessages.reduce((a, b) => a.messageId > b.messageId ? a : b).messageId;
     if (this.currentUser) {
       this.messageIdTemp = maxMessageID + 1;
-      if (this.inputMessage !== '' && this.currentUser.logged && this.uploadedPhoto && !this.uploadedFile) {
+      if (this.currentUser.logged && this.uploadedPhoto && !this.uploadedFile) {
         this.sendTempMessage.channelId = 2;
         this.sendTempMessage.date = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
         this.sendTempMessage.message = this.inputMessage;
@@ -136,7 +136,7 @@ export class PublicChannelTwoComponent implements OnInit {
         this.sendTempMessage.image = undefined;
         this.inputMessage = '';
         this.uploadedPhoto = false;
-      } else if (this.inputMessage !== '' && this.currentUser.logged && !this.uploadedPhoto && this.uploadedFile) {
+      } else if (this.currentUser.logged && !this.uploadedPhoto && this.uploadedFile) {
         this.sendTempMessage.channelId = 2;
         this.sendTempMessage.date = this.createDate(this.date.toLocaleDateString(), this.date.toLocaleTimeString());
         this.sendTempMessage.message = this.inputMessage;
