@@ -1,14 +1,14 @@
 $primaryColor: rgb(39, 73, 223);
 .public-channel-container {
-  width: 60%;
+  width: 100%;
   height: 600px;
-  background-color: $primaryColor;
+  background-color: #2749df;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   position: relative;
   text-align: center;
   color: white;
-  box-shadow: 0px 0px 4px rgb(0, 0, 0);
+  box-shadow: 0px 0px 4px black;
   margin: auto;
   margin-top: 50px;
   display: flex;
@@ -16,7 +16,13 @@ $primaryColor: rgb(39, 73, 223);
   align-items: stretch;
   justify-content: left;
   margin-bottom: 20px;
-  max-width: 60%;
+  max-width: 67%;
+  @media (min-device-width: 768px) and (max-device-width: 1112px) {
+    max-width: 96%;
+  }
+  @media (min-device-width: 320px) and (max-device-width: 420px) {
+    max-width: 96%;
+  }
 }
 .messages {
   height: 700px;
@@ -243,14 +249,14 @@ $primaryColor: rgb(39, 73, 223);
   cursor: context-menu;
 }
 .public-channel-outter-textbox {
-  width: 60%;
+  width: 100%;
   height: 110px;
-  background-color: $primaryColor;
+  background-color: #2749df;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   position: initial;
   text-align: center;
-  box-shadow: 0px 0px 4px rgb(0, 0, 0);
+  box-shadow: 0px 0px 4px black;
   margin: auto;
   margin-top: -20px;
   display: flex;
@@ -258,8 +264,16 @@ $primaryColor: rgb(39, 73, 223);
   align-items: stretch;
   justify-content: left;
   margin-bottom: 10px;
-  max-width: 60%;
+  max-width: 67%;
   padding-bottom: 17px;
+  @media (min-device-width: 768px) and (max-device-width: 1112px) {
+    max-width: 96%;
+  }
+  @media (min-device-width: 320px) and (max-device-width: 420px) {
+    max-width: 96%;
+    position: relative;
+    right: 3.5rem;
+  }
 }
 .public-channel-inner-textbox {
   background-color: white;

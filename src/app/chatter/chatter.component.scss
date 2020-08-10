@@ -65,3 +65,12 @@ $primaryColor: rgb(39, 73, 223);
   bottom: 50px;
   font-size: 14px;
 }
+.main-wrapper {
+  display: flex;
+  @media (min-device-width: 768px) and (max-device-width: 1112px) {
+    flex-direction: column;
+  }
+  @media (min-device-width: 320px) and (max-device-width: 420px) {
+    flex-direction: column;
+  }
+}

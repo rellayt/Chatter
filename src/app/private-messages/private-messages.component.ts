@@ -443,7 +443,7 @@ export class privateMessagesDialog implements OnInit {
       }
       return '';
     } else {
-      if (this.secUserMain) {
+      if (this.secUserMain.lastOnline) {
         return this.secUserMain.lastOnline.substring(0, 10) + ', at ' + this.secUserMain.lastOnline.substring(11, 16);
       }
       return '';
