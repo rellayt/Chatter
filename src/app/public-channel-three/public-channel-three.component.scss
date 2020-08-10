@@ -1,6 +1,6 @@
 $primaryColor: rgb(39, 73, 223);
 .public-channel-container {
-  width: 100%;
+  width: 96%;
   height: 600px;
   background-color: #2749df;
   border-top-left-radius: 10px;
@@ -16,12 +16,14 @@ $primaryColor: rgb(39, 73, 223);
   align-items: stretch;
   justify-content: left;
   margin-bottom: 20px;
-  max-width: 67%;
+  margin-left: 6vw;
   @media (min-device-width: 768px) and (max-device-width: 1112px) {
     max-width: 96%;
+    margin-left: 2vw;
   }
   @media (min-device-width: 320px) and (max-device-width: 420px) {
     max-width: 96%;
+    margin-left: 2vw;
   }
 }
 .messages {
@@ -249,7 +251,7 @@ $primaryColor: rgb(39, 73, 223);
   cursor: context-menu;
 }
 .public-channel-outter-textbox {
-  width: 100%;
+  width: 96%;
   height: 110px;
   background-color: #2749df;
   border-bottom-left-radius: 10px;
@@ -257,19 +259,20 @@ $primaryColor: rgb(39, 73, 223);
   position: initial;
   text-align: center;
   box-shadow: 0px 0px 4px black;
-  margin: auto;
+  margin: -20px 7rem 0 7rem;
   margin-top: -20px;
   display: flex;
   flex-direction: row;
   align-items: stretch;
   justify-content: left;
   margin-bottom: 10px;
-  max-width: 67%;
   padding-bottom: 17px;
   @media (min-device-width: 768px) and (max-device-width: 1112px) {
+    margin: -20px auto auto auto;
     max-width: 96%;
   }
   @media (min-device-width: 320px) and (max-device-width: 420px) {
+    margin: -20px auto auto auto;
     max-width: 96%;
     position: relative;
     right: 3.5rem;
